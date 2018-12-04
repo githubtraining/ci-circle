@@ -7,10 +7,25 @@ template:
     name: continuous-integration
     repo: 
 before:
+  # open welcome issue
+  # - response: 00.1_welcome.md
 
-# Repo artifacts:
+# Repo artifacts: TBD
 
 steps:
+
+# 1 - Enable Circle CI
+#  event: status.context == ci/circleci
+#  respond:
+#  - response: 01.1_congratulations.md, validates they turned on CI
+#  #feedback-needed: should the next steps be its own issue?
+#  - response: 01.2_next-steps.md, asks learner to open new PR
+#   * TEMPLATE REPO: needs branch with broken code
+
+# 2 - Break the build
+# event: pr.opened
+# closeIssue
+# - response: 02.1_
 
 # 1. Bot opens welcome issue, asks user to add CircleCI to repo
 # 2. User adds CircleCI to repo => status.context = ci/circleci
