@@ -72,7 +72,7 @@ steps:
 # 7 - Protect a branch based on the CI build status
 # event: pullRequestReview.approved
 # - action: getBranchProtection (octokit)
-# @template-repo: needs branch 
+# @template-repo: needs branch introducing a new feature
 # - action: newPullRequest
 #     response: 07.1_feature.md
 #             > introduces a new feature into the codebase, asks learner to add a unit test
@@ -82,19 +82,23 @@ steps:
 
 # 8 - Add a unit test
 # event: pr.synchronized
-# - action: respond
-#     response: 08.1_merge.md
-#             > tells the learner to merge their PR
 # @template-repo needs a branch with the deploy stage in the CI config file
 # - action: newPullRequest
-#     response: 08.2_
+#     response: 08.1_deploy.md
+#             > teaches the learner about continuous deployment with the introduction of the stage in the config
+# - action: respond
+#     response: 08.2_merge.md
+#             > tells the learner to merge their PR
 
+# 9 - Deploy
+# event: pr.closed (merged)
+# - action: respond
+#     response: 09.1_deployed.md
+#             > points the learner to the deployment, constrasts with continuous delivery
+# @template-repo needs a few branches with commits that will return various responses from the CI provider
+# - action: newPullRequest
+# - action: createIssue
+#     response: 09.congratulations.md
+#             > points learner to new PRs to learn more, says bye :tada:
 
 # @feedback-needed: we have the ability to make a CI build status its own step each time we're waiting for the provider to build something. When the CI reports back a status, that step is marked as completed. If the CI does not report a status (say, it gets stuck in pending) that step isn't completed. Should we? 
-
-# 21. Learner commits unit test.
-# 22. Circle CI reports successful build on the file.
-# 23. Learner merges PR
-# 24. Bot manually deploys, defines continuous delivery, contrasts it with continuous deployment
-# 25. Bot opens a few PRs with different PR statuses.
-# 26. Bot opens ‘congratulations’ issue
