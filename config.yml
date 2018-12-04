@@ -1,0 +1,39 @@
+title: Continuous integration
+tagline: Use CI
+description: A :sparkles: course.
+tags:
+  - Continuous Integration
+template:
+    name: continuous-integration
+    repo: 
+before:
+
+# Repo artifacts:
+
+steps:
+
+# 1. Bot opens welcome issue, asks user to add CircleCI to repo
+# 2. User adds CircleCI to repo => status.context = ci/circleci
+# 3. Bot asks user to break the code and open PR
+# 4. User opens PR with broken code
+# 5. Bot closes welcome issue
+# 6. Bot validates failing PR
+# 7. CircleCI returns failing build
+# 8. User commits a fix
+# 9. CircleCI returns successful build
+# 10. User merges PR
+# 11. Bot adds customization issue, telling the user we’d like to check links or look for broken images
+# 12. User adds customization file in a new PR
+# 13. Bot validates circle.yml file, asks learner to update branch protection, asks learner to approve the PR when the branch is protected.
+# 14. Learner approves PR
+# 15. Bot merges PR.
+# 16. Bot opens a new PR with broken link, failed build
+# 17. Learner fixes link. 
+# 18. Bot merges. Bot opens a PR introducing a new feature, asks learner to introduce a testing framework.
+# 19. Learner commits testing framework to dependencies, and add it to config file
+# 20. Bot asks learner to commit a unit test.
+# 21. Learner commits unit test.
+# 22. Circle CI reports successful build on the file.
+# 23. Learner merges PR
+# 24. Bot opens a few PRs with different PR statuses.
+# 25. Bot opens ‘congratulations’ issue
