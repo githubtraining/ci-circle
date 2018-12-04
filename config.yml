@@ -35,5 +35,6 @@ steps:
 # 21. Learner commits unit test.
 # 22. Circle CI reports successful build on the file.
 # 23. Learner merges PR
-# 24. Bot opens a few PRs with different PR statuses.
-# 25. Bot opens ‘congratulations’ issue
+# 24. Bot manually deploys, defines continuous delivery, contrasts it with continuous deployment
+# 25. Bot opens a few PRs with different PR statuses.
+# 26. Bot opens ‘congratulations’ issue
