@@ -16,37 +16,82 @@ steps:
 
 # 1 - Enable Circle CI
 #  event: status.context == ci/circleci
-#  respond:
-#  - response: 01.1_congratulations.md, validates they turned on CI
-#  #feedback-needed: should the next steps be its own issue?
-#  - response: 01.2_next-steps.md, asks learner to open new PR
-#   * TEMPLATE REPO: needs branch with broken code
+#  - action: respond
+#      response: 01.1_congratulations.md
+#               > validates they turned on CI
+#  @feedback-needed: should the next steps be its own issue?
+#  - action: respond
+#      response: 01.2_next-steps.md
+#               > asks learner to open new PR
+#   @template-repo: needs branch with broken code
 
-# 2 - Break the build
+# 2 - See a broken build
 # event: pr.opened
-# closeIssue
-# - response: 02.1_
+# - action: closeIssue
+#     response: 02.1_close-welcome.md
+#             > closes the welcome issue
+# - action: respond
+#     response: 02.2_build-status.md
+#             > introduces learner to the build status at the provider page (or the checks tab?)
+#             > asks learner to commit a fix
 
-# 1. Bot opens welcome issue, asks user to add CircleCI to repo
-# 2. User adds CircleCI to repo => status.context = ci/circleci
-# 3. Bot asks user to break the code and open PR
-# 4. User opens PR with broken code
-# 5. Bot closes welcome issue
-# 6. Bot validates failing PR
-# 7. CircleCI returns failing build
-# 8. User commits a fix
-# 9. CircleCI returns successful build
-# 10. User merges PR
-# 11. Bot adds customization issue, telling the user we’d like to check links or look for broken images
-# 12. User adds customization file in a new PR
-# 13. Bot validates circle.yml file, asks learner to update branch protection, asks learner to approve the PR when the branch is protected.
-# 14. Learner approves PR
-# 15. Bot merges PR.
-# 16. Bot opens a new PR with broken link, failed build
-# 17. Learner fixes link. 
-# 18. Bot merges. Bot opens a PR introducing a new feature, asks learner to introduce a testing framework.
-# 19. Learner commits testing framework to dependencies, and add it to config file
-# 20. Bot asks learner to commit a unit test.
+# 3 - Fix the broken build
+# event: pr.synchronized (learner commits)
+# - action: respond
+#     response: 03.1_await-build.md
+#             > messaging explaining waiting for the build, merge when done
+
+# 4 - Merge your first PR
+# event: pr.closed (+ merged)
+# - action: createIssue
+#     response: 04.1_customize-the-build.md
+#             > introduce the learner to the config, ask them to open a PR with a templated config
+#             @template-repo: needs branch with straightforward or blank config
+
+# 5 - Configure the CI provider
+# event: pr.opened
+# - action: respond
+#     response: 05.1_add-a-test.md
+#             > asks learner to add the link checker
+
+# 6 - Add a test
+# event: pr.synchronized
+# - action: respond
+#     @feedback-needed: can we realistically manage the codebase and the content for, say, a documentation project in the same repo? should we? if not, how do we do this?
+#     response: 06.1_broken-links.md
+#             > learner reads build for broken links, is asked to fix them
+# - action: newPullRequest
+#     @template-repo: needs to have broken links in the initial codebase
+#     @template-repo: needs a branch fixing broken links
+#     response: 06.2_fix-broken-links.md
+#             > the OP for the PR fixing the broken links, opened by the bot
+# - action: respond
+#     response: 06.3_protect-branch.md
+#             > asks the learner to turn on branch protection, and then approve the PR
+
+# 7 - Protect a branch based on the CI build status
+# event: pullRequestReview.approved
+# - action: getBranchProtection (octokit)
+# @template-repo: needs branch 
+# - action: newPullRequest
+#     response: 07.1_feature.md
+#             > introduces a new feature into the codebase, asks learner to add a unit test
+# - action: mergePullRequest
+#     response: 07.2_go-to-feature-pr.md
+#             > points learner to feature PR
+
+# 8 - Add a unit test
+# event: pr.synchronized
+# - action: respond
+#     response: 08.1_merge.md
+#             > tells the learner to merge their PR
+# @template-repo needs a branch with the deploy stage in the CI config file
+# - action: newPullRequest
+#     response: 08.2_
+
+
+# @feedback-needed: we have the ability to make a CI build status its own step each time we're waiting for the provider to build something. When the CI reports back a status, that step is marked as completed. If the CI does not report a status (say, it gets stuck in pending) that step isn't completed. Should we? 
+
 # 21. Learner commits unit test.
 # 22. Circle CI reports successful build on the file.
 # 23. Learner merges PR
