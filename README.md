@@ -7,3 +7,5 @@ After completing this course, you will be able to:
 - protect branches based on the result of a build from continuous integration
 - customize builds
 - write tests for your project 
+- define continuous delivery
+- define continuous deployment
