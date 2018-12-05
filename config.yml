@@ -1,6 +1,6 @@
 title: Continuous integration
 tagline: Use CI
-description: A :sparkles: course.
+description: A sparkles course.
 tags:
   - Continuous Integration
 template:
@@ -36,8 +36,7 @@ steps:
 # event: pr.opened
 # - action: respond (in pr 2 with broken code)
 #     response: 02.1_build-status.md
-#             > introduces learner to the build status at the provider page (or the checks tab?)
-#             > asks learner to commit a fix
+#             > introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
 
 # 3 - Fix the broken build
 # event: pr.synchronized (learner commits)
@@ -95,7 +94,7 @@ steps:
 # 8 - Deploy
 # event: pr.closed (merged) (pr 6 add cd)
 # - action: respond
-#     response: 06.1_deployed.md
+#     response: 05.3_deployed.md
 #             > points the learner to the deployment, constrasts with continuous delivery
 # @template-repo needs a few branches with commits that will return various responses from the CI provider
 # - action: newPullRequest
