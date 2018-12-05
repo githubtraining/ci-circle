@@ -7,33 +7,100 @@ template:
     name: continuous-integration
     repo: 
 before:
+  # open issue 1 (welcome)
+  # - response: 01.1_welcome.md
 
 # Repo artifacts:
+# 1. Issue: Welcome
+# 2. PR: [title created by learner] - broken code
+# 3. PR: Customize the build
+# 4. PR: Add links to our docs
+# 5. PR: New feature
+# 6. PR: Add continuous deployment
+# 7. Issue: Congratulations
+# @feedback-needed: I'm trying numbering issues based on their issue or PR, instead of based on the step number. +1 or -1?
 
 steps:
 
-# 1. Bot opens welcome issue, asks user to add CircleCI to repo
-# 2. User adds CircleCI to repo => status.context = ci/circleci
-# 3. Bot asks user to break the code and open PR
-# 4. User opens PR with broken code
-# 5. Bot closes welcome issue
-# 6. Bot validates failing PR
-# 7. CircleCI returns failing build
-# 8. User commits a fix
-# 9. CircleCI returns successful build
-# 10. User merges PR
-# 11. Bot adds customization issue, telling the user we’d like to check links or look for broken images
-# 12. User adds customization file in a new PR
-# 13. Bot validates circle.yml file, asks learner to update branch protection, asks learner to approve the PR when the branch is protected.
-# 14. Learner approves PR
-# 15. Bot merges PR.
-# 16. Bot opens a new PR with broken link, failed build
-# 17. Learner fixes link. 
-# 18. Bot merges. Bot opens a PR introducing a new feature, asks learner to introduce a testing framework.
-# 19. Learner commits testing framework to dependencies, and add it to config file
-# 20. Bot asks learner to commit a unit test.
-# 21. Learner commits unit test.
-# 22. Circle CI reports successful build on the file.
-# 23. Learner merges PR
-# 24. Bot opens a few PRs with different PR statuses.
-# 25. Bot opens ‘congratulations’ issue
+# 1 - Enable CI
+#  event: status.context == ci/circleci
+#  - action: respond (in issue 1 welcome)
+#      response: 01.2_congratulations.md
+#               > validates they turned on CI
+#  - action: respond (in issue 1 welcome)
+#      response: 01.3_next-steps.md
+#               > asks learner to open new PR
+#   @template-repo: needs branch with broken code
+
+# 2 - Add new code
+# event: pr.opened
+# - action: respond (in pr 2 with broken code)
+#     response: 02.1_build-status.md
+#             > introduces learner to the build status at the provider page (or the checks tab?)
+#             > asks learner to commit a fix
+
+# 3 - Fix the broken build
+# event: pr.synchronized (learner commits)
+# - action: respond (in pr 2 with broken code)
+#     response: 02.2_await-build.md
+#             > messaging explaining waiting for the build, merge when done
+
+# 4 - Merge your fix
+# event: pr.closed (+ merged) (pr 2 with broken code, now fixed)
+# - action: createPullRequest (pr 3 customize the build)
+#     response: 03.1_customize-the-build.md
+#             @template-repo: needs branch with straightforward or blank config
+# - action: respond (in pr 2 with broken code)
+#     response: 02.3_go-to-customize-build.md
+#             > ask the learner to go to the next PR
+# - action: respond (in pr 3 customize the build)
+#     response: 03.2_add-validation.md
+#             > asks learner to add the link checker
+
+# 5 - Add validation
+# event: pr.synchronized (learner adds a link checker)
+# - action: mergePullRequest (PR 3 customize the build)
+# - action: newPullRequest (pr 4: add links to docs)
+#     @template-repo: needs to have broken links in the initial codebase
+#     response: 04.1_add-links.md
+#             > the OP a PR with some broken links, opened by the bot
+# - action: respond (in in PR 3 customize the build)
+#     response: 03.3_go-to-broken-links.md
+#             > guides learner to the broken links PR
+# - action: respond (in PR 4 add links to our docs)
+#     response: 04.2_protect-branch.md
+#             > asks the learner to turn on branch protection, and then approve the PR
+
+# 6 - Protect a branch based on the CI build status
+# event: pullRequestReview.approved (PR 4 add links to our docs)
+# - action: getBranchProtection (octokit)
+# @template-repo: needs branch introducing a new feature
+# - action: newPullRequest (pr 5: new feature)
+#     response: 05.1_feature.md
+#             > introduces a new feature into the codebase, asks learner to add a unit test
+# - action: mergePullRequest (pr 4 add links)
+#     response: 04.3_go-to-feature-pr.md
+#             > points learner to feature PR
+
+# 7 - Add a unit test
+# event: pr.synchronized
+# @template-repo needs a branch with the deploy stage in the CI config file
+# - action: newPullRequest (pr 6 add cd)
+#     response: 06.1_deploy.md
+#             > teaches the learner about continuous deployment with the introduction of the stage in the config
+# - action: respond (in pr 5 new feature)
+#     response: 05.2_merge.md
+#             > tells the learner to merge their new PR with unit test
+
+# 8 - Deploy
+# event: pr.closed (merged) (pr 6 add cd)
+# - action: respond
+#     response: 06.1_deployed.md
+#             > points the learner to the deployment, constrasts with continuous delivery
+# @template-repo needs a few branches with commits that will return various responses from the CI provider
+# - action: newPullRequest
+# - action: createIssue
+#     response: 07.1_congratulations.md
+#             > points learner to new PRs to learn more, says bye :tada:
+
+# @feedback-needed: we have the ability to make a CI build status its own step each time we're waiting for the provider to build something. When the CI reports back a status, that step is marked as completed. If the CI does not report a status (say, it gets stuck in pending) that step isn't completed. Should we? 
