@@ -7,98 +7,100 @@ template:
     name: continuous-integration
     repo: 
 before:
-  # open welcome issue
-  # - response: 00.1_welcome.md
+  # open issue 1 (welcome)
+  # - response: 01.1_welcome.md
 
-# Repo artifacts: TBD
+# Repo artifacts:
+# 1. Issue: Welcome
+# 2. PR: [title created by learner] - broken code
+# 3. PR: Customize the build
+# 4. PR: Add links to our docs
+# 5. PR: New feature
+# 6. PR: Add continuous deployment
+# 7. Issue: Congratulations
+# @feedback-needed: I'm trying numbering issues based on their issue or PR, instead of based on the step number. +1 or -1?
 
 steps:
 
-# 1 - Enable Circle CI
+# 1 - Enable CI
 #  event: status.context == ci/circleci
-#  - action: respond
-#      response: 01.1_congratulations.md
+#  - action: respond (in issue 1 welcome)
+#      response: 01.2_congratulations.md
 #               > validates they turned on CI
-#  @feedback-needed: should the next steps be its own issue?
-#  - action: respond
-#      response: 01.2_next-steps.md
+#  - action: respond (in issue 1 welcome)
+#      response: 01.3_next-steps.md
 #               > asks learner to open new PR
 #   @template-repo: needs branch with broken code
 
-# 2 - See a broken build
+# 2 - Add new code
 # event: pr.opened
-# - action: closeIssue
-#     response: 02.1_close-welcome.md
-#             > closes the welcome issue
-# - action: respond
-#     response: 02.2_build-status.md
+# - action: respond (in pr 2 with broken code)
+#     response: 02.1_build-status.md
 #             > introduces learner to the build status at the provider page (or the checks tab?)
 #             > asks learner to commit a fix
 
 # 3 - Fix the broken build
 # event: pr.synchronized (learner commits)
-# - action: respond
-#     response: 03.1_await-build.md
+# - action: respond (in pr 2 with broken code)
+#     response: 02.2_await-build.md
 #             > messaging explaining waiting for the build, merge when done
 
-# 4 - Merge your first PR
-# event: pr.closed (+ merged)
-# - action: createIssue
-#     response: 04.1_customize-the-build.md
-#             > introduce the learner to the config, ask them to open a PR with a templated config
+# 4 - Merge your fix
+# event: pr.closed (+ merged) (pr 2 with broken code, now fixed)
+# - action: createPullRequest (pr 3 customize the build)
+#     response: 03.1_customize-the-build.md
 #             @template-repo: needs branch with straightforward or blank config
-
-# 5 - Configure the CI provider
-# event: pr.opened
-# - action: respond
-#     response: 05.1_add-a-test.md
+# - action: respond (in pr 2 with broken code)
+#     response: 02.3_go-to-customize-build.md
+#             > ask the learner to go to the next PR
+# - action: respond (in pr 3 customize the build)
+#     response: 03.2_add-validation.md
 #             > asks learner to add the link checker
 
-# 6 - Add a test
-# event: pr.synchronized
-# - action: respond
-#     @feedback-needed: can we realistically manage the codebase and the content for, say, a documentation project in the same repo? should we? if not, how do we do this?
-#     response: 06.1_broken-links.md
-#             > learner reads build for broken links, is asked to fix them
-# - action: newPullRequest
+# 5 - Add validation
+# event: pr.synchronized (learner adds a link checker)
+# - action: mergePullRequest (PR 3 customize the build)
+# - action: newPullRequest (pr 4: add links to docs)
 #     @template-repo: needs to have broken links in the initial codebase
-#     @template-repo: needs a branch fixing broken links
-#     response: 06.2_fix-broken-links.md
-#             > the OP for the PR fixing the broken links, opened by the bot
-# - action: respond
-#     response: 06.3_protect-branch.md
+#     response: 04.1_add-links.md
+#             > the OP a PR with some broken links, opened by the bot
+# - action: respond (in in PR 3 customize the build)
+#     response: 03.3_go-to-broken-links.md
+#             > guides learner to the broken links PR
+# - action: respond (in PR 4 add links to our docs)
+#     response: 04.2_protect-branch.md
 #             > asks the learner to turn on branch protection, and then approve the PR
 
-# 7 - Protect a branch based on the CI build status
-# event: pullRequestReview.approved
+# 6 - Protect a branch based on the CI build status
+# event: pullRequestReview.approved (PR 4 add links to our docs)
 # - action: getBranchProtection (octokit)
 # @template-repo: needs branch introducing a new feature
-# - action: newPullRequest
-#     response: 07.1_feature.md
+# - action: newPullRequest (pr 5: new feature)
+#     response: 05.1_feature.md
 #             > introduces a new feature into the codebase, asks learner to add a unit test
-# - action: mergePullRequest
-#     response: 07.2_go-to-feature-pr.md
+# - action: mergePullRequest (pr 4 add links)
+#     response: 04.3_go-to-feature-pr.md
 #             > points learner to feature PR
 
-# 8 - Add a unit test
+# 7 - Add a unit test
 # event: pr.synchronized
 # @template-repo needs a branch with the deploy stage in the CI config file
-# - action: newPullRequest
-#     response: 08.1_deploy.md
+# - action: newPullRequest (pr 6 add cd)
+#     response: 06.1_deploy.md
 #             > teaches the learner about continuous deployment with the introduction of the stage in the config
-# - action: respond
-#     response: 08.2_merge.md
-#             > tells the learner to merge their PR
+# - action: respond (in pr 5 new feature)
+#     response: 05.2_merge.md
+#             > tells the learner to merge their new PR with unit test
 
-# 9 - Deploy
-# event: pr.closed (merged)
+# 8 - Deploy
+# event: pr.closed (merged) (pr 6 add cd)
 # - action: respond
-#     response: 09.1_deployed.md
+#     response: 06.1_deployed.md
 #             > points the learner to the deployment, constrasts with continuous delivery
 # @template-repo needs a few branches with commits that will return various responses from the CI provider
 # - action: newPullRequest
 # - action: createIssue
-#     response: 09.congratulations.md
+#     response: 07.1_congratulations.md
 #             > points learner to new PRs to learn more, says bye :tada:
 
 # @feedback-needed: we have the ability to make a CI build status its own step each time we're waiting for the provider to build something. When the CI reports back a status, that step is marked as completed. If the CI does not report a status (say, it gets stuck in pending) that step isn't completed. Should we? 
