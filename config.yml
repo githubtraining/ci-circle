@@ -119,18 +119,27 @@ steps:
     repo: '%payload.repository.name%'
     branch: master
 
+  # tell the learner the branch is protected and to merge
+  - type: respond
+    with: 04.3_branch-protected.md
+
+# 7 - Merge the PR
+- title: Merge code with a successful build
+  description: Merge your code.
+  event: pull_request.closed
+
+  actions:
+
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 5
     title: New feature
     body: 05.1_feature.md
     head: # @todo grab branch from the template repo for PR 5: New feature
 
-  - type: mergePullRequest # @todo make this a step by the learner since merging will rely on status passing which could take a while
-
   - type: respond
-    with: 04.3_go-to-feature-pr.md # points learner to feature PR
+    with: 04.4_go-to-feature-pr.md # points learner to feature PR
 
-# 7 - Add a unit test
+# 8 - Add a unit test
 - title: Add a unit test
   description: Practice test drive development by adding a unit test.
   event: pull_request.synchronize #PR 5 with the addition of a unit test
@@ -147,7 +156,7 @@ steps:
   - type: respond
     with: 05.2_merge.md
 
-# 8 - Deploy
+# 9 - Deploy
 - title: Deploy
   description: Add continuous deployment to your pipeline.
   event: pull_request.closed # @todo check that the proper PR was merged, PR 5: new feature
