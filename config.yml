@@ -5,7 +5,7 @@ tags:
   - Continuous Integration
 template:
     name: continuous-integration
-    repo: 
+    repo: ci-docs-project-template
 before:
   # open issue 1 (welcome)
 - type: createIssue
@@ -74,7 +74,7 @@ steps:
   - type: createPullRequest
     title: Customize the build
     body: 03.1_customize-the-build.md
-    head: # @todo grab branch from the template repo for PR 3: Customize the build 
+    head: custom-build # @todo grab branch from the template repo for PR 3: Customize the build 
     comments:
       # asks learner to add the link checker
       - 03.2_add-validation.md 
@@ -97,7 +97,7 @@ steps:
   - type: createPullRequest
     title: Add links to our docs
     body: 04.1_add-links.md
-    head: # @todo grab branch from the template repo for PR 4: Add links to our docs
+    head: add-links # @todo grab branch from the template repo for PR 4: Add links to our docs
     comments:
       - 04.2_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
 
@@ -134,7 +134,7 @@ steps:
   - type: createPullRequest #PR 5
     title: New feature
     body: 05.1_feature.md
-    head: # @todo grab branch from the template repo for PR 5: New feature
+    head: new-feature # @todo grab branch from the template repo for PR 5: New feature
 
   - type: respond
     with: 04.4_go-to-feature-pr.md # points learner to feature PR
@@ -150,7 +150,7 @@ steps:
   - type: createPullRequest # PR 6: add CD
     title: Add continuous deployment
     body: 06.1_deploy.md
-    head: # @todo grab branch from the template repo for PR 6: Add CD
+    head: add-deploy # @todo grab branch from the template repo for PR 6: Add CD
 
   # tells the learner to merge their new PR with unit test
   - type: respond
