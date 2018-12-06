@@ -27,7 +27,7 @@ steps:
 # 1 - Enable CI
 - title: Enable continuous integration
   description: Enable continuous integration on this repository.
-  event: status.context
+  event: status
   actions: 
   
   # @todo check for event: status.context == ci/circleci
