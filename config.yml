@@ -125,7 +125,7 @@ steps:
     body: 05.1_feature.md
     head: # @todo grab branch from the template repo for PR 5: New feature
 
-  - type: mergePullRequest
+  - type: mergePullRequest # @todo make this a step by the learner since merging will rely on status passing which could take a while
 
   - type: respond
     with: 04.3_go-to-feature-pr.md # points learner to feature PR
