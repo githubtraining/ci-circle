@@ -1,20 +1,22 @@
 title: Continuous integration
 tagline: Use CI
-description: A :sparkles: course.
+description: A sparkles course.
 tags:
   - Continuous Integration
 template:
     name: continuous-integration
-    repo: 
+    repo: ci-docs-project-template
 before:
   # open issue 1 (welcome)
-  # - response: 01.1_welcome.md
+- type: createIssue
+  title: Welcome
+  body: 01.1_welcome.md
 
 # Repo artifacts:
 # 1. Issue: Welcome
 # 2. PR: [title created by learner] - broken code
 # 3. PR: Customize the build
-# 4. PR: Add links to our docs
+# REMOVED! 4. PR: Add links to our docs
 # 5. PR: New feature
 # 6. PR: Add continuous deployment
 # 7. Issue: Congratulations
@@ -23,84 +25,155 @@ before:
 steps:
 
 # 1 - Enable CI
-#  event: status.context == ci/circleci
-#  - action: respond (in issue 1 welcome)
-#      response: 01.2_congratulations.md
-#               > validates they turned on CI
-#  - action: respond (in issue 1 welcome)
-#      response: 01.3_next-steps.md
-#               > asks learner to open new PR
-#   @template-repo: needs branch with broken code
+- title: Enable continuous integration
+  description: Enable continuous integration on this repository.
+  event: status
+  actions: 
+  
+  # @todo check for event: status.context == ci/circleci
+
+  # validates they turned on CI
+  - type: respond
+    issue: Welcome
+    with: 01.2_congratulations.md
+  
+  # asks learner to open new PR
+  - type: respond
+    issue: Welcome
+    with: 01.3_next-steps.md
 
 # 2 - Add new code
-# event: pr.opened
-# - action: respond (in pr 2 with broken code)
-#     response: 02.1_build-status.md
-#             > introduces learner to the build status at the provider page (or the checks tab?)
-#             > asks learner to commit a fix
+- title: Add new code
+  description: Learn how to use CI by introducing and building some code.
+  event: pull_request.opened
+  actions:
+
+  # introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
+  - type: respond
+    with: 02.1_build-status.md
 
 # 3 - Fix the broken build
-# event: pr.synchronized (learner commits)
-# - action: respond (in pr 2 with broken code)
-#     response: 02.2_await-build.md
-#             > messaging explaining waiting for the build, merge when done
+- title: Fix the broken build
+  description: Act on a build from continuous integration. 
+  event: pull_request.synchronize
+  actions:
+
+  # explaining waiting for the build, merge when done
+  - type: respond
+    with: 02.2_await-build.md
 
 # 4 - Merge your fix
-# event: pr.closed (+ merged) (pr 2 with broken code, now fixed)
-# - action: createPullRequest (pr 3 customize the build)
-#     response: 03.1_customize-the-build.md
-#             @template-repo: needs branch with straightforward or blank config
-# - action: respond (in pr 2 with broken code)
-#     response: 02.3_go-to-customize-build.md
-#             > ask the learner to go to the next PR
-# - action: respond (in pr 3 customize the build)
-#     response: 03.2_add-validation.md
-#             > asks learner to add the link checker
+- title: Merge your fix
+  description: Merge the fix to kick off a new build
+  event: pull_request.closed
+  actions:
+
+  # @todo check whether PR 2 with broken code was merged
+
+  # create a pull request customizing the config file
+  - type: createPullRequest
+    title: Customize the build
+    body: 03.1_customize-the-build.md
+    head: custom-build # @todo grab branch from the template repo for PR 3: Customize the build 
+    comments:
+      # asks learner to add the link checker
+      - 03.2_add-validation.md 
+  
+  # ask the learner to go to the next PR  
+  - type: respond
+    with: 02.3_go-to-customize-build.md
+
 
 # 5 - Add validation
-# event: pr.synchronized (learner adds a link checker)
-# - action: mergePullRequest (PR 3 customize the build)
-# - action: newPullRequest (pr 4: add links to docs)
-#     @template-repo: needs to have broken links in the initial codebase
-#     response: 04.1_add-links.md
-#             > the OP a PR with some broken links, opened by the bot
-# - action: respond (in in PR 3 customize the build)
-#     response: 03.3_go-to-broken-links.md
-#             > guides learner to the broken links PR
-# - action: respond (in PR 4 add links to our docs)
-#     response: 04.2_protect-branch.md
-#             > asks the learner to turn on branch protection, and then approve the PR
+- title: Add validation
+  description: Add some automated validation to your project.
+  event: pull_request.synchronize   # learner added a link checker
+  actions:
+
+  # merge some broken links in
+  - type: mergeBranch
+    head: add-links
+
+  - type: respond
+    with: 03.3_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
 
 # 6 - Protect a branch based on the CI build status
-# event: pullRequestReview.approved (PR 4 add links to our docs)
-# - action: getBranchProtection (octokit)
-# @template-repo: needs branch introducing a new feature
-# - action: newPullRequest (pr 5: new feature)
-#     response: 05.1_feature.md
-#             > introduces a new feature into the codebase, asks learner to add a unit test
-# - action: mergePullRequest (pr 4 add links)
-#     response: 04.3_go-to-feature-pr.md
-#             > points learner to feature PR
+- title: Protect a branch
+  description: Require that CI returns a successful status before a PR can be merged.
+  event: pull_request_review.submitted # @todo check that the review is an approval for PR 4
 
-# 7 - Add a unit test
-# event: pr.synchronized
-# @template-repo needs a branch with the deploy stage in the CI config file
-# - action: newPullRequest (pr 6 add cd)
-#     response: 06.1_deploy.md
-#             > teaches the learner about continuous deployment with the introduction of the stage in the config
-# - action: respond (in pr 5 new feature)
-#     response: 05.2_merge.md
-#             > tells the learner to merge their new PR with unit test
+  actions:
 
-# 8 - Deploy
-# event: pr.closed (merged) (pr 6 add cd)
-# - action: respond
-#     response: 06.1_deployed.md
-#             > points the learner to the deployment, constrasts with continuous delivery
-# @template-repo needs a few branches with commits that will return various responses from the CI provider
-# - action: newPullRequest
-# - action: createIssue
-#     response: 07.1_congratulations.md
-#             > points learner to new PRs to learn more, says bye :tada:
+  # make sure learner turned on branch protection
+  - type: octokit
+    method: repos.getBranchProtection
+    owner: '%payload.repository.owner.login%'
+    repo: '%payload.repository.name%'
+    branch: master
 
-# @feedback-needed: we have the ability to make a CI build status its own step each time we're waiting for the provider to build something. When the CI reports back a status, that step is marked as completed. If the CI does not report a status (say, it gets stuck in pending) that step isn't completed. Should we? 
+  # tell the learner the branch is protected and to merge
+  - type: respond
+    with: 03.4_branch-protected.md
+
+# 7 - Merge the PR
+- title: Merge code with a successful build
+  description: Merge your code.
+  event: pull_request.closed
+
+  actions:
+
+  # introduces a new feature into the codebase, asks learner to add a unit test
+  - type: createPullRequest #PR 5
+    title: New feature
+    body: 05.1_feature.md
+    head: new-feature # @todo grab branch from the template repo for PR 5: New feature
+
+  - type: respond
+    with: 03.5_go-to-feature-pr.md # points learner to feature PR
+
+# 8 - Add a unit test
+- title: Add a unit test
+  description: Practice test drive development by adding a unit test.
+  event: pull_request.synchronize #PR 5 with the addition of a unit test
+
+  actions:
+
+  # tells the learner to merge their new PR with unit test
+  - type: respond
+    with: 05.2_merge.md
+
+# 9 - Merge your unit test
+- title: Merge your unit test
+  description: Merge the test.
+  event: pull_request.closed
+
+  actions:
+
+  # teaches the learner about continuous deployment with the introduction of the stage in the config
+  - type: createPullRequest # PR 6: add CD
+    title: Add continuous deployment
+    body: 06.1_deploy.md
+    head: add-deploy # @todo grab branch from the template repo for PR 6: Add CD
+
+  # asks the learner to merge the deployment
+  - type: respond
+    issue: New feature
+    with: 05.3_goto-deployment.md
+
+# 10 - Deploy
+- title: Deploy
+  description: Add continuous deployment to your pipeline.
+  event: pull_request.closed # @todo check that the proper PR was merged, PR 5: new feature
+
+  actions:
+
+  # points the learner to the deployment, constrasts with continuous delivery
+  - type: respond
+    with: 06.2_see-deployed.md
+
+  # @todo create additional PRs for continued study
+
+  # final issue
+  - type: createIssue
+    title: Congratulations
+    body: 07.1_congratulations.md
