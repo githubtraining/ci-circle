@@ -16,7 +16,7 @@ before:
 # 1. Issue: Welcome
 # 2. PR: [title created by learner] - broken code
 # 3. PR: Customize the build
-# 4. PR: Add links to our docs
+# REMOVED! 4. PR: Add links to our docs
 # 5. PR: New feature
 # 6. PR: Add continuous deployment
 # 7. Issue: Congratulations
@@ -90,20 +90,12 @@ steps:
   event: pull_request.synchronize   # learner added a link checker
   actions:
 
-  # merge the pull request with the new link checker
-  - type: mergePullRequest
+  # merge some broken links in
+  - type: mergeBranch
+    head: add-links
 
-  # open a new PR that will test the link checker
-  - type: createPullRequest
-    title: Add links to our docs
-    body: 04.1_add-links.md
-    head: add-links # @todo grab branch from the template repo for PR 4: Add links to our docs
-    comments:
-      - 04.2_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
-
-  # guides learner to the broken links PR
   - type: respond
-    with: 03.3_go-to-broken-links.md
+    with: 03.3_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
@@ -121,7 +113,7 @@ steps:
 
   # tell the learner the branch is protected and to merge
   - type: respond
-    with: 04.3_branch-protected.md
+    with: 03.4_branch-protected.md
 
 # 7 - Merge the PR
 - title: Merge code with a successful build
@@ -137,7 +129,7 @@ steps:
     head: new-feature # @todo grab branch from the template repo for PR 5: New feature
 
   - type: respond
-    with: 04.4_go-to-feature-pr.md # points learner to feature PR
+    with: 03.5_go-to-feature-pr.md # points learner to feature PR
 
 # 8 - Add a unit test
 - title: Add a unit test
