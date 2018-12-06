@@ -155,10 +155,10 @@ steps:
     body: 06.1_deploy.md
     head: add-deploy # @todo grab branch from the template repo for PR 6: Add CD
 
-  # points the learner to the deployment, constrasts with continuous delivery
+  # asks the learner to merge the deployment
   - type: respond
     issue: New feature
-    with: 05.3_deployment.md
+    with: 05.3_merge-eployment.md
 
 # 10 - Deploy
 - title: Deploy
@@ -167,9 +167,9 @@ steps:
 
   actions:
 
-  # ask learner to merge deployment
+  # points the learner to the deployment, constrasts with continuous delivery
   - type: respond
-    with: 05.4_merge-deploy.md
+    with: 06.2_see-deployed.md
 
   # @todo create additional PRs for continued study
 
