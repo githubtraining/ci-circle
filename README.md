@@ -1,4 +1,4 @@
-Continuous integration (CI) is a prerequisite of modern software development. Implementing CI as part of your pipeline can save you time and give your team more control over the codebase.
+Once you've written code on GitHub, how do you make sure it's bug free? Continuous integration (CI) is a requirement in modern software development. Adding automated tests and controls to your pipeline saves you time and give your team improved reliability. 
 
 After completing this course, you will be able to:
 
