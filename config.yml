@@ -158,7 +158,7 @@ steps:
   # asks the learner to merge the deployment
   - type: respond
     issue: New feature
-    with: 05.3_merge-eployment.md
+    with: 05.3_merge-deployment.md
 
 # 10 - Deploy
 - title: Deploy
