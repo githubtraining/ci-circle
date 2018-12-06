@@ -146,27 +146,38 @@ steps:
 
   actions:
 
+  # tells the learner to merge their new PR with unit test
+  - type: respond
+    with: 05.2_merge.md
+
+# 9 - Merge your unit test
+- title: Merge your unit test
+  description: Merge the test.
+  event: pull_request.closed
+
+  actions:
+
   # teaches the learner about continuous deployment with the introduction of the stage in the config
   - type: createPullRequest # PR 6: add CD
     title: Add continuous deployment
     body: 06.1_deploy.md
     head: add-deploy # @todo grab branch from the template repo for PR 6: Add CD
 
-  # tells the learner to merge their new PR with unit test
+  # points the learner to the deployment, constrasts with continuous delivery
   - type: respond
-    with: 05.2_merge.md
+    issue: New feature
+    with: 05.3_deployment.md
 
-# 9 - Deploy
+# 10 - Deploy
 - title: Deploy
   description: Add continuous deployment to your pipeline.
   event: pull_request.closed # @todo check that the proper PR was merged, PR 5: new feature
 
   actions:
 
-  # points the learner to the deployment, constrasts with continuous delivery
+  # ask learner to merge deployment
   - type: respond
-    issue: New feature
-    with: 05.3_deployed.md
+    with: 05.4_merge-deploy.md
 
   # @todo create additional PRs for continued study
 
