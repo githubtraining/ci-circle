@@ -61,6 +61,11 @@ steps:
 
   # @todo check whether PR 2 with broken code was merged
 
+  # merge master in so we have config
+  - type: mergeBranch
+    head: master
+    base: custom-build
+
   # create a pull request customizing the config file
   - type: createPullRequest
     title: Customize the build
