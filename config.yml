@@ -43,8 +43,8 @@ steps:
     with: 01.3_next-steps.md
 
 # 2 - Add new code
-- title: Add new code
-  description: Learn how to use CI by introducing and building some code.
+- title: Configure your CI provider
+  description: Learn how to use CI by introducing a configuration file.
   event: pull_request.opened
   actions:
 
@@ -52,19 +52,10 @@ steps:
   - type: respond
     with: 02.1_build-status.md
 
-# 3 - Fix the broken build
-- title: Fix the broken build
-  description: Act on a build from continuous integration. 
-  event: pull_request.synchronize
-  actions:
-
-  # explaining waiting for the build, merge when done
-  - type: respond
-    with: 02.2_await-build.md
 
 # 4 - Merge your fix
-- title: Merge your fix
-  description: Merge the fix to kick off a new build
+- title: Merge the configuration
+  description: Share your CI configuration with the team by merging it.
   event: pull_request.closed
   actions:
 
