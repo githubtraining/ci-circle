@@ -86,7 +86,7 @@ steps:
   event: pull_request.synchronize   # learner added a link checker
   actions:
 
-  # merge some broken links in
+  # merge some broken links into master
   - type: mergeBranch
     head: add-links
 
@@ -96,7 +96,7 @@ steps:
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
   description: Require that CI returns a successful status before a PR can be merged.
-  event: pull_request_review.submitted # @todo check that the review is an approval for PR 4
+  event: pull_request.synchronize
 
   actions:
 
@@ -107,9 +107,19 @@ steps:
     repo: '%payload.repository.name%'
     branch: master
 
-  # tell the learner the branch is protected and to merge
+  # tell the learner the branch is protected and to fix the broken link
   - type: respond
     with: 03.4_branch-protected.md
+
+# 7 - Fix the broken build
+ - title: Fix the broken build
+   description: Fix any broken links currently in our codebase.
+   event: pull_request.synchronize
+   actions:
+
+   # explaining waiting for the build, merge when done
+   - type: respond
+     with: 03.5_fixed.md
 
 # 7 - Merge the PR
 - title: Merge code with a successful build
