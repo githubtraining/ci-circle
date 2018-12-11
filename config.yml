@@ -43,8 +43,8 @@ steps:
     with: 01.3_next-steps.md
 
 # 2 - Add new code
-- title: Add new code
-  description: Learn how to use CI by introducing and building some code.
+- title: Configure your CI provider
+  description: Learn how to use CI by introducing a configuration file.
   event: pull_request.opened
   actions:
 
@@ -52,23 +52,19 @@ steps:
   - type: respond
     with: 02.1_build-status.md
 
-# 3 - Fix the broken build
-- title: Fix the broken build
-  description: Act on a build from continuous integration. 
-  event: pull_request.synchronize
-  actions:
-
-  # explaining waiting for the build, merge when done
-  - type: respond
-    with: 02.2_await-build.md
 
 # 4 - Merge your fix
-- title: Merge your fix
-  description: Merge the fix to kick off a new build
+- title: Merge the configuration
+  description: Share your CI configuration with the team by merging it.
   event: pull_request.closed
   actions:
 
   # @todo check whether PR 2 with broken code was merged
+
+  # merge master in so we have config
+  - type: mergeBranch
+    head: master
+    base: custom-build
 
   # create a pull request customizing the config file
   - type: createPullRequest
@@ -90,7 +86,7 @@ steps:
   event: pull_request.synchronize   # learner added a link checker
   actions:
 
-  # merge some broken links in
+  # merge some broken links into master
   - type: mergeBranch
     head: add-links
 
@@ -100,7 +96,7 @@ steps:
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
   description: Require that CI returns a successful status before a PR can be merged.
-  event: pull_request_review.submitted # @todo check that the review is an approval for PR 4
+  event: pull_request.synchronize
 
   actions:
 
@@ -111,9 +107,19 @@ steps:
     repo: '%payload.repository.name%'
     branch: master
 
-  # tell the learner the branch is protected and to merge
+  # tell the learner the branch is protected and to fix the broken link
   - type: respond
     with: 03.4_branch-protected.md
+
+# 7 - Fix the broken build
+- title: Fix the broken build
+  description: Fix any broken links currently in our codebase.
+  event: pull_request.synchronize
+  actions:
+
+# explaining waiting for the build, merge when done
+  - type: respond
+    with: 03.5_fixed.md
 
 # 7 - Merge the PR
 - title: Merge code with a successful build
@@ -121,6 +127,11 @@ steps:
   event: pull_request.closed
 
   actions:
+
+  # merge master in so we have config
+  - type: mergeBranch
+    head: master
+    base: new-feature
 
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 5
@@ -150,10 +161,9 @@ steps:
   actions:
 
   # teaches the learner about continuous deployment with the introduction of the stage in the config
-  - type: createPullRequest # PR 6: add CD
-    title: Add continuous deployment
+  - type: createIssue # PR 6: add CD
+    title: Continuous deployment
     body: 06.1_deploy.md
-    head: add-deploy # @todo grab branch from the template repo for PR 6: Add CD
 
   # asks the learner to merge the deployment
   - type: respond
@@ -163,12 +173,13 @@ steps:
 # 10 - Deploy
 - title: Deploy
   description: Add continuous deployment to your pipeline.
-  event: pull_request.closed # @todo check that the proper PR was merged, PR 5: new feature
+  event: deployment
 
   actions:
 
   # points the learner to the deployment, constrasts with continuous delivery
   - type: respond
+    issue: Continuous deployment
     with: 06.2_see-deployed.md
 
   # @todo create additional PRs for continued study
