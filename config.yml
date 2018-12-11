@@ -179,7 +179,7 @@ steps:
 
   # points the learner to the deployment, constrasts with continuous delivery
   - type: respond
-    issue: Deploy
+    issue: Continuous deployment
     with: 06.2_see-deployed.md
 
   # @todo create additional PRs for continued study
