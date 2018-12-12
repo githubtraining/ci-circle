@@ -95,7 +95,8 @@ steps:
 
   # merge some broken links into master
   - type: mergeBranch
-    head: add-links
+    head: timestamp
+    base: custom-build
 
   - type: respond
     with: 03.3_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
