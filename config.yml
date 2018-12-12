@@ -160,9 +160,18 @@ steps:
 
   # tells the learner to merge their new PR with unit test
   - type: respond
-    with: 05.2_merge.md
+    with: 05.1_fix-the-link.md
 
   # @todo have bot introduce fix to the broken link
+
+- title: Fix the broken link
+  description: Fix the broken link
+  event: pull_request.synchronize
+
+  actions:
+
+  - type: respond
+    with: 05.2_merge.md
 
 # 9 - Merge your unit test
 - title: Merge the link checker
