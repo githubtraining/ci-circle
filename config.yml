@@ -66,8 +66,6 @@ steps:
   event: pull_request.closed
   actions:
 
-  # @todo check whether PR 2 with broken code was merged
-
   # # merge master in so we have config
   - type: mergeBranch
     head: master
@@ -77,7 +75,7 @@ steps:
   - type: createPullRequest
     title: Customize the build
     body: 03.1_customize-the-build.md
-    head: custom-build # @todo grab branch from the template repo for PR 3: Customize the build 
+    head: custom-build
     comments:
       # asks learner to add the link checker
       - 03.2_add-validation.md 
@@ -146,7 +144,7 @@ steps:
   - type: createPullRequest #PR 5
     title: Add external links to docs
     body: 05.1_feature.md
-    head: add-links # @todo grab branch from the template repo for PR 5: New feature
+    head: add-links 
 
   - type: respond
     with: 03.5_go-to-feature-pr.md # points learner to feature PR
