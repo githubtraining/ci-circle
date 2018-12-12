@@ -5,7 +5,7 @@ tags:
   - Continuous Integration
 template:
     name: continuous-integration
-    repo: ci-docs-project-template
+    repo: ci-circle-template
 before:
   # open issue 1 (welcome)
 - type: createIssue
@@ -43,7 +43,7 @@ steps:
     with: 01.3_next-steps.md
 
 # 2 - Add new code
-- title: Configure your CI provider
+- title: Introduce the configuration file
   description: Learn how to use CI by introducing a configuration file.
   event: pull_request.opened
   actions:
@@ -52,6 +52,13 @@ steps:
   - type: respond
     with: 02.1_build-status.md
 
+- title: Specify the docker image
+  description: Specify the docker image
+  event: pull_request.synchronize
+  actions:
+
+  - type: respond
+    with: 02.2_new-status.md
 
 # 4 - Merge your fix
 - title: Merge the configuration
@@ -59,9 +66,7 @@ steps:
   event: pull_request.closed
   actions:
 
-  # @todo check whether PR 2 with broken code was merged
-
-  # merge master in so we have config
+  # # merge master in so we have config
   - type: mergeBranch
     head: master
     base: custom-build
@@ -70,7 +75,7 @@ steps:
   - type: createPullRequest
     title: Customize the build
     body: 03.1_customize-the-build.md
-    head: custom-build # @todo grab branch from the template repo for PR 3: Customize the build 
+    head: custom-build
     comments:
       # asks learner to add the link checker
       - 03.2_add-validation.md 
@@ -81,14 +86,10 @@ steps:
 
 
 # 5 - Add validation
-- title: Add validation
-  description: Add some automated validation to your project.
+- title: Test your build
+  description: Add automated builds for new commits
   event: pull_request.synchronize   # learner added a link checker
   actions:
-
-  # merge some broken links into master
-  - type: mergeBranch
-    head: add-links
 
   - type: respond
     with: 03.3_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
@@ -96,7 +97,7 @@ steps:
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
   description: Require that CI returns a successful status before a PR can be merged.
-  event: pull_request.synchronize
+  event: pull_request_review
 
   actions:
 
@@ -107,11 +108,17 @@ steps:
     repo: '%payload.repository.name%'
     branch: master
 
+  # merge some broken links into master
+  - type: mergeBranch
+    head: timestamp
+    base: custom-build
+
   # tell the learner the branch is protected and to fix the broken link
   - type: respond
     with: 03.4_branch-protected.md
+    issue: '%payload.pull_request.number%'
 
-# 7 - Fix the broken build
+    # 7 - Fix the broken build
 - title: Fix the broken build
   description: Fix any broken links currently in our codebase.
   event: pull_request.synchronize
@@ -131,30 +138,41 @@ steps:
   # merge master in so we have config
   - type: mergeBranch
     head: master
-    base: new-feature
+    base: add-links
 
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 5
-    title: New feature
+    title: Add external links to docs
     body: 05.1_feature.md
-    head: new-feature # @todo grab branch from the template repo for PR 5: New feature
+    head: add-links 
 
   - type: respond
     with: 03.5_go-to-feature-pr.md # points learner to feature PR
 
 # 8 - Add a unit test
-- title: Add a unit test
-  description: Practice test drive development by adding a unit test.
+- title: Add a link checker
+  description: Check for broken links using CI
   event: pull_request.synchronize #PR 5 with the addition of a unit test
 
   actions:
 
   # tells the learner to merge their new PR with unit test
   - type: respond
+    with: 05.1_fix-the-link.md
+
+  # @todo have bot introduce fix to the broken link
+
+- title: Fix the broken link
+  description: Fix the broken link
+  event: pull_request.synchronize
+
+  actions:
+
+  - type: respond
     with: 05.2_merge.md
 
 # 9 - Merge your unit test
-- title: Merge your unit test
+- title: Merge the link checker
   description: Merge the test.
   event: pull_request.closed
 
@@ -167,7 +185,7 @@ steps:
 
   # asks the learner to merge the deployment
   - type: respond
-    issue: New feature
+    issue: Add external links to docs
     with: 05.3_goto-deployment.md
 
 # 10 - Deploy
