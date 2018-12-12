@@ -104,7 +104,7 @@ steps:
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
   description: Require that CI returns a successful status before a PR can be merged.
-  event: pull_request.synchronize
+  event: pull_request_review
 
   actions:
 
