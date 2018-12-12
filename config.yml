@@ -93,11 +93,6 @@ steps:
   event: pull_request.synchronize   # learner added a link checker
   actions:
 
-  # merge some broken links into master
-  - type: mergeBranch
-    head: timestamp
-    base: custom-build
-
   - type: respond
     with: 03.3_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
 
@@ -115,9 +110,15 @@ steps:
     repo: '%payload.repository.name%'
     branch: master
 
+  # merge some broken links into master
+  - type: mergeBranch
+    head: timestamp
+    base: custom-build
+
   # tell the learner the branch is protected and to fix the broken link
   - type: respond
     with: 03.4_branch-protected.md
+    issue: '%payload.pull_request.title%'
 
     # 7 - Fix the broken build
 - title: Fix the broken build
