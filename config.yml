@@ -140,13 +140,13 @@ steps:
   # merge master in so we have config
   - type: mergeBranch
     head: master
-    base: new-feature
+    base: add-links
 
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 5
     title: Add external links to docs
     body: 05.1_feature.md
-    head: new-feature # @todo grab branch from the template repo for PR 5: New feature
+    head: add-links # @todo grab branch from the template repo for PR 5: New feature
 
   - type: respond
     with: 03.5_go-to-feature-pr.md # points learner to feature PR
