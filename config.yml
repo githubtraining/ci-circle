@@ -43,7 +43,7 @@ steps:
     with: 01.3_next-steps.md
 
 # 2 - Add new code
-- title: Configure your CI provider
+- title: Introduce the configuration file
   description: Learn how to use CI by introducing a configuration file.
   event: pull_request.opened
   actions:
@@ -52,6 +52,13 @@ steps:
   - type: respond
     with: 02.1_build-status.md
 
+- title: Specify the docker image
+  description: Specify the docker image
+  event: pull_request.synchronize
+  actions:
+
+  - type: respond
+    with: 02.2_new-status.md
 
 # 4 - Merge your fix
 - title: Merge the configuration
