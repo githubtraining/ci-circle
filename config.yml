@@ -5,7 +5,7 @@ tags:
   - Continuous Integration
 template:
     name: continuous-integration
-    repo: ci-docs-project-template
+    repo: ci-circle-template
 before:
   # open issue 1 (welcome)
 - type: createIssue
@@ -64,7 +64,7 @@ steps:
   # merge master in so we have config
   - type: mergeBranch
     head: master
-    base: custom-build
+    base: timestamp
 
   # create a pull request customizing the config file
   - type: createPullRequest
@@ -81,8 +81,8 @@ steps:
 
 
 # 5 - Add validation
-- title: Add validation
-  description: Add some automated validation to your project.
+- title: Test your build
+  description: Add automated builds for new commits
   event: pull_request.synchronize   # learner added a link checker
   actions:
 
@@ -111,7 +111,7 @@ steps:
   - type: respond
     with: 03.4_branch-protected.md
 
-# 7 - Fix the broken build
+    # 7 - Fix the broken build
 - title: Fix the broken build
   description: Fix any broken links currently in our codebase.
   event: pull_request.synchronize
@@ -135,7 +135,7 @@ steps:
 
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 5
-    title: New feature
+    title: Add external links to docs
     body: 05.1_feature.md
     head: new-feature # @todo grab branch from the template repo for PR 5: New feature
 
@@ -143,8 +143,8 @@ steps:
     with: 03.5_go-to-feature-pr.md # points learner to feature PR
 
 # 8 - Add a unit test
-- title: Add a unit test
-  description: Practice test drive development by adding a unit test.
+- title: Add a link checker
+  description: Check for broken links using CI
   event: pull_request.synchronize #PR 5 with the addition of a unit test
 
   actions:
@@ -153,8 +153,10 @@ steps:
   - type: respond
     with: 05.2_merge.md
 
+  # @todo have bot introduce fix to the broken link
+
 # 9 - Merge your unit test
-- title: Merge your unit test
+- title: Merge the link checker
   description: Merge the test.
   event: pull_request.closed
 
@@ -167,7 +169,7 @@ steps:
 
   # asks the learner to merge the deployment
   - type: respond
-    issue: New feature
+    issue: Add external links to docs
     with: 05.3_goto-deployment.md
 
 # 10 - Deploy
