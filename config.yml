@@ -68,10 +68,10 @@ steps:
 
   # @todo check whether PR 2 with broken code was merged
 
-  # # merge master in so we have config
-  - type: mergeBranch
-    head: master
-    base: custom-build
+  # # # merge master in so we have config
+  # - type: mergeBranch
+  #   head: master
+  #   base: custom-build
 
   # create a pull request customizing the config file
   - type: createPullRequest
@@ -107,7 +107,7 @@ steps:
   - type: octokit
     method: repos.getBranchProtection
     owner: '%payload.repository.owner.login%'
-    repo: '%payload.repository.name%'
+    repo: '%payload.repository. name%'
     branch: master
 
   # merge some broken links into master
@@ -118,7 +118,7 @@ steps:
   # tell the learner the branch is protected and to fix the broken link
   - type: respond
     with: 03.4_branch-protected.md
-    issue: '%payload.pull_request.title%'
+    issue: '%payload.pull_request.number%'
 
     # 7 - Fix the broken build
 - title: Fix the broken build
