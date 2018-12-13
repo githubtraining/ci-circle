@@ -30,7 +30,11 @@ steps:
   event: status
   actions: 
   
-  # @todo check for event: status.context == ci/circleci
+  # waits for circleci to report a status, any status
+  - type: gate
+    left: '%payload.context%'
+    operator: ===
+    right: ci/circleci
 
   # validates they turned on CI
   - type: respond
@@ -101,6 +105,11 @@ steps:
 
   actions:
 
+  - type: gate
+    left: '%payload.review.state%'
+    operator: ===
+    right: approved
+
   # make sure learner turned on branch protection
   - type: octokit
     method: repos.getBranchProtection
@@ -108,7 +117,7 @@ steps:
     repo: '%payload.repository.name%'
     branch: master
 
-  # merge some broken links into master
+  # merge a broken buuild into the branch
   - type: mergeBranch
     head: timestamp
     base: custom-build
@@ -160,7 +169,10 @@ steps:
   - type: respond
     with: 05.1_fix-the-link.md
 
-  # @todo have bot introduce fix to the broken link
+  # merge a broken link into the branch
+  - type: mergeBranch
+    head: add-a-link
+    base: add-links
 
 - title: Fix the broken link
   description: Fix the broken link
