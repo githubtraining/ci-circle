@@ -105,6 +105,11 @@ steps:
 
   actions:
 
+  - type: gate
+    left: '%payload.review.state%'
+    operator: ===
+    right: approved
+
   # make sure learner turned on branch protection
   - type: octokit
     method: repos.getBranchProtection
