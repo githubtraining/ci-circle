@@ -98,6 +98,9 @@ steps:
       # asks learner to add the link checker
       - 03.2_add-validation.md
 
+  - type: assignRegistrant
+    issue: '%actions.newPR.data.number%'
+
   - type: octokit
     method: pullRequests.createComment
     owner: '%payload.repository.owner.login%'
