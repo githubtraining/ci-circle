@@ -56,6 +56,19 @@ steps:
   - type: respond
     with: 02.1_build-status.md
 
+  - type: octokit
+    method: pullRequests.createComment
+    owner: '%payload.repository.owner.login%'
+    repo: '%payload.repository.name%'
+    number: '%payload.number%'
+    commit_id: '%payload.pull_request.head.sha%'
+    path: .circleci/config.yml
+    body: |
+      ```suggestion
+            - image: circleci/ruby:2.4.1-node-browsers
+      ```
+    position: 5
+
 - title: Specify the docker image
   description: Specify the docker image
   event: pull_request.synchronize
