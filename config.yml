@@ -30,7 +30,11 @@ steps:
   event: status
   actions: 
   
-  # @todo check for event: status.context == ci/circleci
+  # waits for circleci to report a status, any status
+  - type: gate
+    left: '%payload.context%'
+    operator: ===
+    right: ci/circleci
 
   # validates they turned on CI
   - type: respond
