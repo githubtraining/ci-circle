@@ -93,10 +93,24 @@ steps:
     title: Customize the build
     body: 03.1_customize-the-build.md
     head: custom-build
+    action_id: newPR
     comments:
       # asks learner to add the link checker
-      - 03.2_add-validation.md 
-  
+      - 03.2_add-validation.md
+
+  - type: octokit
+    method: pullRequests.createComment
+    owner: '%payload.repository.owner.login%'
+    repo: '%payload.repository.name%'
+    number: '%actions.newPR.data.number%'
+    commit_id: '%actions.newPR.data.head.sha%'
+    path: .circleci/config.yml
+    body: |
+      ```suggestion
+                command: bundle exec jekyll build
+      ```
+    position: 11
+
   # ask the learner to go to the next PR  
   - type: respond
     with: 02.3_go-to-customize-build.md
