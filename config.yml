@@ -108,7 +108,7 @@ steps:
     repo: '%payload.repository.name%'
     branch: master
 
-  # merge some broken links into master
+  # merge a broken buuild into the branch
   - type: mergeBranch
     head: timestamp
     base: custom-build
@@ -160,7 +160,10 @@ steps:
   - type: respond
     with: 05.1_fix-the-link.md
 
-  # @todo have bot introduce fix to the broken link
+  # merge a broken link into the branch
+  - type: mergeBranch
+    head: add-a-link
+    base: add-links
 
 - title: Fix the broken link
   description: Fix the broken link
