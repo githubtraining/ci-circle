@@ -14,13 +14,11 @@ before:
 
 # Repo artifacts:
 # 1. Issue: Welcome
-# 2. PR: [title created by learner] - broken code
-# 3. PR: Customize the build
-# REMOVED! 4. PR: Add links to our docs
-# 5. PR: New feature
-# 6. PR: Add continuous deployment
-# 7. Issue: Congratulations
-# @feedback-needed: I'm trying numbering issues based on their issue or PR, instead of based on the step number. +1 or -1?
+# 2. PR: [title created by learner] - add initial circle config
+# 3. PR: Configure the build
+# 4. PR: Add external links to our docs
+# 5. Issue: Continuous deployment
+# 6. Issue: Congratulations
 
 steps:
 
@@ -77,7 +75,7 @@ steps:
 
   # create a pull request customizing the config file
   - type: createPullRequest
-    title: Customize the build
+    title: Configure the build
     body: 03.1_customize-the-build.md
     head: custom-build
     comments:
@@ -106,7 +104,7 @@ steps:
   actions:
 
   - type: gate
-    left: '%payload.review.state%'
+    left: '%context.payload.review.state%'
     operator: ===
     right: approved
 
