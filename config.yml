@@ -162,6 +162,19 @@ steps:
     with: 03.4_branch-protected.md
     issue: '%payload.pull_request.number%'
 
+  - type: octokit
+    method: pullRequests.createComment
+    owner: '%payload.repository.owner.login%'
+    repo: '%payload.repository.name%'
+    number: '%payload.pull_request.number%'
+    commit_id: '%payload.pull_request.head.sha%'
+    path: docs/01_getting_ready_for_class.md
+    body: |
+      ```suggestion
+      The time is: {{ site.time }}
+      ```
+    position: 4
+
     # 7 - Fix the broken build
 - title: Fix the broken build
   description: Fix any broken links currently in our codebase.
