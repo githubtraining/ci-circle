@@ -99,8 +99,8 @@ steps:
       - 03.2_add-validation.md
 
     # assign the learner so they can commit a suggestion
-#   - type: assignRegistrant
-#     issue: '%actions.newPR.data.number%'
+  - type: assignRegistrant
+    issue: '%actions.newPR.data.number%'
 
   - type: octokit
     method: pullRequests.createComment
@@ -205,8 +205,8 @@ steps:
     action_id: linksPR
 
     # assign the learner so they can commit a suggestion
-#   - type: assignRegistrant
-#     issue: '%actions.linksPR.data.number%'
+  - type: assignRegistrant
+    issue: '%actions.linksPR.data.number%'
 
   - type: octokit
     method: pullRequests.createComment
