@@ -204,6 +204,10 @@ steps:
     head: add-links
     action_id: linksPR
 
+    # assign the learner so they can commit a suggestion
+#   - type: assignRegistrant
+#     issue: '%actions.linksPR.data.number%'
+
   - type: octokit
     method: pullRequests.createComment
     owner: '%payload.repository.owner.login%'
@@ -227,14 +231,28 @@ steps:
 
   actions:
 
-  # tells the learner to merge their new PR with unit test
-  - type: respond
-    with: 05.1_fix-the-link.md
-
   # merge a broken link into the branch
   - type: mergeBranch
     head: add-a-link
     base: add-links
+
+  # tells the learner to fix the broken link
+  - type: respond
+    with: 05.1_fix-the-link.md
+
+  # suggest change from the learner
+  - type: octokit
+    method: pullRequests.createComment
+    owner: '%payload.repository.owner.login%'
+    repo: '%payload.repository.name%'
+    number: '%payload.pull_request.number%'
+    commit_id: '%payload.pull_request.head.sha%'
+    path: index.md
+    body: |
+      ```suggestion
+      Welcome to our Documentation site. How about a visit to [GitHub Docs](https://help.github.com/)
+      ```
+    position: 4
 
 - title: Fix the broken link
   description: Fix the broken link
