@@ -252,9 +252,9 @@ steps:
     path: index.md
     body: |
       ```suggestion
-      Welcome to our Documentation site. How about a visit to [GitHub Docs](https://help.github.com/)
+      Welcome to our Documentation site. How about a visit to [GitHub Docs](https://help.github.com/setupgit)
       ```
-    position: 4
+    position: 5
 
 - title: Fix the broken link
   description: Fix the broken link
