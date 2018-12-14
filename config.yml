@@ -201,7 +201,21 @@ steps:
   - type: createPullRequest #PR 5
     title: Add external links to docs
     body: 05.1_feature.md
-    head: add-links 
+    head: add-links
+    action_id: linksPR
+
+  - type: octokit
+    method: pullRequests.createComment
+    owner: '%payload.repository.owner.login%'
+    repo: '%payload.repository.name%'
+    number: '%actions.linksPR.data.number%'
+    commit_id: '%actions.linksPR.data.head.sha%'
+    path: .circleci/config.yml
+    body: |
+      ```suggestion
+                command: bundle exec htmlproofer ./_site --check-html
+      ```
+    position: 22
 
   - type: respond
     with: 03.5_go-to-feature-pr.md # points learner to feature PR
