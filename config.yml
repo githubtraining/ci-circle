@@ -1,4 +1,4 @@
-title: Continuous integration
+title: Continuous integration with Circle CI
 tagline: Use CI
 description: A sparkles course.
 tags:
@@ -126,8 +126,12 @@ steps:
   event: pull_request.synchronize   # learner added a link checker
   actions:
 
+  # ask the learner for their review
+  - type: requestReviewFromRegistrant
+
+  # asks the learner to turn on branch protection, and then approve the PR
   - type: respond
-    with: 03.3_protect-branch.md # asks the learner to turn on branch protection, and then approve the PR
+    with: 03.3_protect-branch.md 
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
