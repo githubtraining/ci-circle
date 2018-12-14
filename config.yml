@@ -236,6 +236,7 @@ steps:
   - type: mergeBranch
     head: add-a-link
     base: add-links
+    action_id: branchWithLink
 
   # tells the learner to fix the broken link
   - type: respond
@@ -247,7 +248,7 @@ steps:
     owner: '%payload.repository.owner.login%'
     repo: '%payload.repository.name%'
     number: '%payload.pull_request.number%'
-    commit_id: '%payload.pull_request.head.sha%'
+    commit_id: '%actions.branchWithLink.data.sha%'
     path: index.md
     body: |
       ```suggestion
