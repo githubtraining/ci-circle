@@ -156,6 +156,7 @@ steps:
   - type: mergeBranch
     head: timestamp
     base: custom-build
+    action_id: mergedBranch
 
   # tell the learner the branch is protected and to fix the broken link
   - type: respond
@@ -167,7 +168,7 @@ steps:
     owner: '%payload.repository.owner.login%'
     repo: '%payload.repository.name%'
     number: '%payload.pull_request.number%'
-    commit_id: '%payload.pull_request.head.sha%'
+    commit_id: '%actions.mergedBranch.data.sha%'
     path: docs/01_getting_ready_for_class.md
     body: |
       ```suggestion
