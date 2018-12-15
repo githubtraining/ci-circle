@@ -238,7 +238,7 @@ steps:
 
   # tells the learner to fix the broken link
   - type: respond
-    with: 05.1_fix-the-link.md
+    with: 04.2_fix-the-link.md
 
   # suggest change from the learner
   - type: octokit
