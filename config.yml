@@ -139,7 +139,7 @@ steps:
   actions:
 
   - type: gate
-    left: '%context.payload.review.state%'
+    left: '%payload.review.state%'
     operator: ===
     right: approved
 
