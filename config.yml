@@ -199,7 +199,7 @@ steps:
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 4
     title: Add external links to docs
-    body: 05.1_feature.md
+    body: 04.1_feature.md
     head: add-links
     action_id: linksPR
 
