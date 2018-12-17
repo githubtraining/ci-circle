@@ -44,7 +44,7 @@ steps:
     issue: Welcome
     with: 01.3_next-steps.md
     data:
-      prUrl: '%payload.repository.html_url%/compare/master...config?expand=1'
+      prUrl: '%payload.repository.html_url%/compare/master...initial-circle-config?expand=1'
 
 # 2 - Add new code
 - title: Introduce the configuration file
