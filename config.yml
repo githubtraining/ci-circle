@@ -14,13 +14,11 @@ before:
 
 # Repo artifacts:
 # 1. Issue: Welcome
-# 2. PR: [title created by learner] - broken code
-# 3. PR: Customize the build
-# REMOVED! 4. PR: Add links to our docs
-# 5. PR: New feature
-# 6. PR: Add continuous deployment
-# 7. Issue: Congratulations
-# @feedback-needed: I'm trying numbering issues based on their issue or PR, instead of based on the step number. +1 or -1?
+# 2. PR: [title created by learner] - add initial circle config
+# 3. PR: Configure the build
+# 4. PR: Add external links to our docs
+# 5. Issue: Continuous deployment
+# 6. Issue: Congratulations
 
 steps:
 
@@ -28,8 +26,8 @@ steps:
 - title: Enable continuous integration
   description: Enable continuous integration on this repository.
   event: status
-  actions: 
-  
+  actions:
+
   # waits for circleci to report a status, any status
   - type: gate
     left: '%payload.context%'
@@ -39,12 +37,14 @@ steps:
   # validates they turned on CI
   - type: respond
     issue: Welcome
-    with: 01.2_congratulations.md
-  
+    with: 01.2_congratulations.md #uses key value "repo"
+
   # asks learner to open new PR
   - type: respond
     issue: Welcome
     with: 01.3_next-steps.md
+    data:
+      prUrl: '%payload.repository.html_url%/compare/master...config?expand=1'
 
 # 2 - Add new code
 - title: Introduce the configuration file
@@ -90,7 +90,7 @@ steps:
 
   # create a pull request customizing the config file
   - type: createPullRequest
-    title: Customize the build
+    title: Configure the build
     body: 03.1_customize-the-build.md
     head: custom-build
     action_id: newPR
@@ -115,7 +115,7 @@ steps:
       ```
     position: 11
 
-  # ask the learner to go to the next PR  
+  # ask the learner to go to the next PR
   - type: respond
     with: 02.3_go-to-customize-build.md
 
@@ -131,7 +131,7 @@ steps:
 
   # asks the learner to turn on branch protection, and then approve the PR
   - type: respond
-    with: 03.3_protect-branch.md 
+    with: 03.3_protect-branch.md
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
@@ -199,9 +199,9 @@ steps:
     base: add-links
 
   # introduces a new feature into the codebase, asks learner to add a unit test
-  - type: createPullRequest #PR 5
+  - type: createPullRequest #PR 4
     title: Add external links to docs
-    body: 05.1_feature.md
+    body: 04.1_feature.md
     head: add-links
     action_id: linksPR
 
@@ -223,7 +223,7 @@ steps:
     position: 22
 
   - type: respond
-    with: 03.5_go-to-feature-pr.md # points learner to feature PR
+    with: 03.6_go-to-feature-pr.md # points learner to feature PR
 
 # 8 - Add a unit test
 - title: Add a link checker
@@ -240,7 +240,7 @@ steps:
 
   # tells the learner to fix the broken link
   - type: respond
-    with: 05.1_fix-the-link.md
+    with: 04.2_fix-the-link.md
 
   # suggest change from the learner
   - type: octokit
@@ -263,7 +263,7 @@ steps:
   actions:
 
   - type: respond
-    with: 05.2_merge.md
+    with: 04.3_merge.md
 
 # 9 - Merge your unit test
 - title: Merge the link checker
@@ -273,14 +273,14 @@ steps:
   actions:
 
   # teaches the learner about continuous deployment with the introduction of the stage in the config
-  - type: createIssue # PR 6: add CD
+  - type: createIssue # PR 5: CD
     title: Continuous deployment
-    body: 06.1_deploy.md
+    body: 05.1_deploy.md
 
   # asks the learner to merge the deployment
   - type: respond
     issue: Add external links to docs
-    with: 05.3_goto-deployment.md
+    with: 04.4_goto-deployment.md
 
 # 10 - Deploy
 - title: Deploy
@@ -292,11 +292,11 @@ steps:
   # points the learner to the deployment, constrasts with continuous delivery
   - type: respond
     issue: Continuous deployment
-    with: 06.2_see-deployed.md
+    with: 05.2_see-deployed.md
 
   # @todo create additional PRs for continued study
 
   # final issue
   - type: createIssue
     title: Congratulations
-    body: 07.1_congratulations.md
+    body: 06.1_congratulations.md
