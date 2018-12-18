@@ -255,7 +255,7 @@ steps:
     body: 11.1_deploy.md
   # asks the learner to merge the deployment
   - type: respond
-    issue: Add external links to docs
+    issue: Add external links to the 'docs' directory
     with: 11.2_goto-deployment.md
     data:
       url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/issues/5'
