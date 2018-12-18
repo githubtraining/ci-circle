@@ -47,6 +47,13 @@ steps:
   event: pull_request.opened
   actions:
   # introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
+  - type: gate
+    left: "payload.pull_request.head.ref%"
+    operator: "==="
+    right: "initial-circle-config"
+    else:
+      - type: respond
+        with: 01.e_wrong-branch.md
   - type: respond
     with: 02.1_build-status.md
   - type: closeIssue
