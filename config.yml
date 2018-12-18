@@ -10,7 +10,7 @@ before:
   # open issue 1 (welcome)
 - type: createIssue
   title: Welcome
-  body: 01.1_welcome.md
+  body: 00.0_welcome.md
 
 # Repo artifacts:
 # 1. Issue: Welcome
@@ -36,10 +36,9 @@ steps:
   # asks user to open a PR
   - type: respond
     issue: Welcome
-    with: 01.2_congratulations.md
+    with: 01.1_congratulations.md
     data:
       prUrl: '%payload.repository.html_url%/compare/master...initial-circle-config?expand=1'
-
 
 # 2 - Add new code
 - title: Introduce the configuration file
@@ -69,9 +68,8 @@ steps:
   link: '{{ repoUrl }}/pull/2'
   event: pull_request.synchronize
   actions:
-
   - type: respond
-    with: 02.2_new-status.md
+    with: 03.1_new-status.md
 
 # 4 - Merge your fix
 - title: Merge the configuration
@@ -86,7 +84,7 @@ steps:
   # create a pull request customizing the config file
   - type: createPullRequest
     title: Configure the build
-    body: 03.1_customize-the-build.md
+    body: 04.1_customize-the-build.md
     head: custom-build
     action_id: newPR
     # assign the learner so they can commit a suggestion
@@ -106,7 +104,7 @@ steps:
     position: 11
   # ask the learner to go to the next PR
   - type: respond
-    with: 02.3_go-to-customize-build.md
+    with: 04.2_go-to-customize-build.md
 
 # 5 - Add validation
 - title: Add validation
@@ -118,14 +116,13 @@ steps:
   - type: requestReviewFromRegistrant
   # asks the learner to turn on branch protection, and then approve the PR
   - type: respond
-    with: 03.3_protect-branch.md
+    with: 05.1_protect-branch.md
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect the master branch
   description: Require that CI returns a successful status before a PR can be merged.
   link: '{{ repoUrl }}/pull/3'
   event: pull_request_review
-
   actions:
   - type: gate
     left: '%payload.review.state%'
@@ -144,7 +141,7 @@ steps:
     action_id: mergedBranch
   # tell the learner the branch is protected and to fix the broken link
   - type: respond
-    with: 03.4_branch-protected.md
+    with: 06.1_branch-protected.md
     issue: '%payload.pull_request.number%'
   - type: octokit
     method: pullRequests.createComment
@@ -167,7 +164,7 @@ steps:
   actions:
   # explaining waiting for the build, merge when done
   - type: respond
-    with: 03.5_fixed.md
+    with: 07.1_fixed.md
 
 # 8 - Merge the PR
 - title: Merge code with a successful build
@@ -182,7 +179,7 @@ steps:
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 4
     title: Add external links to docs
-    body: 04.1_feature.md
+    body: 08.1_feature.md
     head: add-links
     action_id: linksPR
     # assign the learner so they can commit a suggestion
@@ -201,7 +198,7 @@ steps:
       ```
     position: 22
   - type: respond
-    with: 03.6_go-to-feature-pr.md # points learner to feature PR
+    with: 08.2_go-to-feature-pr.md # points learner to feature PR
 
 # 9 - Add a unit test
 - title: Add an HTMLProofer unit test
@@ -216,7 +213,7 @@ steps:
     action_id: branchWithLink
   # tells the learner to fix the broken link
   - type: respond
-    with: 04.2_fix-the-link.md
+    with: 09.1_fix-the-link.md
   # suggest change from the learner
   - type: octokit
     method: pullRequests.createComment
@@ -238,7 +235,7 @@ steps:
   event: pull_request.synchronize
   actions:
   - type: respond
-    with: 04.3_merge.md
+    with: 10.1_merge.md
 
 # 11 - Merge your unit test
 - title: Merge the unit test
@@ -249,11 +246,11 @@ steps:
   # teaches the learner about continuous deployment with the introduction of the stage in the config
   - type: createIssue # PR 5: CD
     title: Continuous deployment
-    body: 05.1_deploy.md
+    body: 11.1_deploy.md
   # asks the learner to merge the deployment
   - type: respond
     issue: Add external links to docs
-    with: 04.4_goto-deployment.md
+    with: 11.2_goto-deployment.md
 
 # 12 - Deploy
 - title: Deploy
@@ -264,8 +261,8 @@ steps:
   # points the learner to the deployment, constrasts with continuous delivery
   - type: respond
     issue: Continuous deployment
-    with: 05.2_see-deployed.md
+    with: 12.1_see-deployed.md
   # @todo create additional PRs for continued study
   - type: createIssue
     title: Congratulations
-    body: 06.1_congratulations.md
+    body: 12.2_congratulations.md
