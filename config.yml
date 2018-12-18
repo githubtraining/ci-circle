@@ -44,7 +44,7 @@ steps:
     issue: Welcome
     with: 01.3_next-steps.md
     data:
-      prUrl: '%payload.repository.html_url%/compare/master...config?expand=1'
+      prUrl: '%payload.repository.html_url%/compare/master...initial-circle-config?expand=1'
 
 # 2 - Add new code
 - title: Introduce the configuration file
@@ -70,7 +70,7 @@ steps:
     position: 5
 
 - title: Specify the docker image
-  description: Specify the docker image
+  description: Specify the docker image.
   event: pull_request.synchronize
   actions:
 
@@ -122,7 +122,7 @@ steps:
 
 # 5 - Add validation
 - title: Test your build
-  description: Add automated builds for new commits
+  description: Add automated builds for new commits.
   event: pull_request.synchronize   # learner added a link checker
   actions:
 
@@ -227,7 +227,7 @@ steps:
 
 # 8 - Add a unit test
 - title: Add a link checker
-  description: Check for broken links using CI
+  description: Check for broken links using CI.
   event: pull_request.synchronize #PR 5 with the addition of a unit test
 
   actions:
@@ -257,7 +257,7 @@ steps:
     position: 5
 
 - title: Fix the broken link
-  description: Fix the broken link
+  description: Fix the broken link.
   event: pull_request.synchronize
 
   actions:
