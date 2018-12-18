@@ -105,6 +105,8 @@ steps:
   # ask the learner to go to the next PR
   - type: respond
     with: 04.2_go-to-customize-build.md
+    data:
+      url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/pull/3'
 
 # 5 - Add validation
 - title: Add validation
