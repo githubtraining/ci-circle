@@ -68,7 +68,7 @@ steps:
 - title: Specify the docker image
   description: Specify the docker image.
   link: '{{ repoUrl }}/pull/2'
-  event: pull_request.synchronize
+  event: status
   actions:
   - type: respond
     with: 03.1_new-status.md
@@ -164,7 +164,7 @@ steps:
 - title: Fix the broken build
   description: Fix any broken links currently in our codebase.
   link: '{{ repoUrl }}/pull/3'
-  event: pull_request.synchronize
+  event: status
   actions:
   # explaining waiting for the build, merge when done
   - type: respond
@@ -210,7 +210,7 @@ steps:
 - title: Add an HTMLProofer unit test
   description: Check for broken links using CI.
   link: '{{ repoUrl }}/pull/4'
-  event: pull_request.synchronize #PR 5 with the addition of a unit test
+  event: status #PR 5 with the addition of a unit test
   actions:
   # merge a broken link into the branch
   - type: mergeBranch
