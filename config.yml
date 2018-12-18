@@ -49,6 +49,8 @@ steps:
   # introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
   - type: respond
     with: 02.1_build-status.md
+  - type: closeIssue
+    issue: Welcome
   - type: octokit
     method: pullRequests.createComment
     owner: '%payload.repository.owner.login%'
@@ -271,6 +273,8 @@ steps:
     data:
       url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/issues/6'
   # @todo create additional PRs for continued study
+  - type: closeIssue
+    issue: Continuous deployment
   - type: createIssue
     title: Congratulations
     body: 12.2_congratulations.md
