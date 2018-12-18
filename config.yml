@@ -33,7 +33,7 @@ steps:
     left: '%payload.context%'
     operator: ===
     right: ci/circleci
-  # asks user to open a PR 
+  # asks user to open a PR
   - type: respond
     issue: Welcome
     with: 01.2_congratulations.md
@@ -89,9 +89,6 @@ steps:
     body: 03.1_customize-the-build.md
     head: custom-build
     action_id: newPR
-    comments:
-      # asks learner to add the link checker
-      - 03.2_add-validation.md
     # assign the learner so they can commit a suggestion
   - type: assignRegistrant
     issue: '%actions.newPR.data.number%'
@@ -112,7 +109,7 @@ steps:
     with: 02.3_go-to-customize-build.md
 
 # 5 - Add validation
-- title: Test your build
+- title: Add validation
   description: Add automated builds for new commits.
   link: '{{ repoUrl }}/pull/3'
   event: pull_request.synchronize   # learner added a link checker
@@ -124,7 +121,7 @@ steps:
     with: 03.3_protect-branch.md
 
 # 6 - Protect a branch based on the CI build status
-- title: Protect a branch
+- title: Protect the master branch
   description: Require that CI returns a successful status before a PR can be merged.
   link: '{{ repoUrl }}/pull/3'
   event: pull_request_review
@@ -207,7 +204,7 @@ steps:
     with: 03.6_go-to-feature-pr.md # points learner to feature PR
 
 # 9 - Add a unit test
-- title: Add a link checker
+- title: Add an HTMLProofer unit test
   description: Check for broken links using CI.
   link: '{{ repoUrl }}/pull/4'
   event: pull_request.synchronize #PR 5 with the addition of a unit test
@@ -244,7 +241,7 @@ steps:
     with: 04.3_merge.md
 
 # 11 - Merge your unit test
-- title: Merge the link checker
+- title: Merge the unit test
   description: Merge the test.
   link: '{{ repoUrl }}/pull/4'
   event: pull_request.closed
