@@ -25,20 +25,18 @@ steps:
 # 1 - Enable CI
 - title: Enable continuous integration
   description: Enable continuous integration on this repository.
+  link: '{{ repoUrl }}/issues/1'
   event: status
   actions:
-
   # waits for circleci to report a status, any status
   - type: gate
     left: '%payload.context%'
     operator: ===
     right: ci/circleci
-
   # validates they turned on CI
   - type: respond
     issue: Welcome
     with: 01.2_congratulations.md #uses key value "repo"
-
   # asks learner to open new PR
   - type: respond
     issue: Welcome
@@ -49,13 +47,12 @@ steps:
 # 2 - Add new code
 - title: Introduce the configuration file
   description: Learn how to use CI by introducing a configuration file.
+  link: '{{ repoUrl }}/issues/1'
   event: pull_request.opened
   actions:
-
   # introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
   - type: respond
     with: 02.1_build-status.md
-
   - type: octokit
     method: pullRequests.createComment
     owner: '%payload.repository.owner.login%'
@@ -69,8 +66,10 @@ steps:
       ```
     position: 5
 
+## Step 3:
 - title: Specify the docker image
   description: Specify the docker image.
+  link: '{{ repoUrl }}/pull/2'
   event: pull_request.synchronize
   actions:
 
@@ -80,14 +79,13 @@ steps:
 # 4 - Merge your fix
 - title: Merge the configuration
   description: Share your CI configuration with the team by merging it.
+  link: '{{ repoUrl }}/pull/2'
   event: pull_request.closed
   actions:
-
   # # merge master in so we have config
   - type: mergeBranch
     head: master
     base: custom-build
-
   # create a pull request customizing the config file
   - type: createPullRequest
     title: Configure the build
@@ -97,11 +95,9 @@ steps:
     comments:
       # asks learner to add the link checker
       - 03.2_add-validation.md
-
     # assign the learner so they can commit a suggestion
   - type: assignRegistrant
     issue: '%actions.newPR.data.number%'
-
   - type: octokit
     method: pullRequests.createComment
     owner: '%payload.repository.owner.login%'
@@ -114,21 +110,18 @@ steps:
                 command: bundle exec jekyll build
       ```
     position: 11
-
   # ask the learner to go to the next PR
   - type: respond
     with: 02.3_go-to-customize-build.md
 
-
 # 5 - Add validation
 - title: Test your build
   description: Add automated builds for new commits.
+  link: '{{ repoUrl }}/pull/3'
   event: pull_request.synchronize   # learner added a link checker
   actions:
-
   # ask the learner for their review
   - type: requestReviewFromRegistrant
-
   # asks the learner to turn on branch protection, and then approve the PR
   - type: respond
     with: 03.3_protect-branch.md
@@ -136,33 +129,29 @@ steps:
 # 6 - Protect a branch based on the CI build status
 - title: Protect a branch
   description: Require that CI returns a successful status before a PR can be merged.
+  link: '{{ repoUrl }}/pull/3'
   event: pull_request_review
 
   actions:
-
   - type: gate
     left: '%payload.review.state%'
     operator: ===
     right: approved
-
   # make sure learner turned on branch protection
   - type: octokit
     method: repos.getBranchProtection
     owner: '%payload.repository.owner.login%'
     repo: '%payload.repository.name%'
     branch: master
-
   # merge a broken buuild into the branch
   - type: mergeBranch
     head: timestamp
     base: custom-build
     action_id: mergedBranch
-
   # tell the learner the branch is protected and to fix the broken link
   - type: respond
     with: 03.4_branch-protected.md
     issue: '%payload.pull_request.number%'
-
   - type: octokit
     method: pullRequests.createComment
     owner: '%payload.repository.owner.login%'
@@ -176,39 +165,35 @@ steps:
       ```
     position: 4
 
-    # 7 - Fix the broken build
+# 7 - Fix the broken build
 - title: Fix the broken build
   description: Fix any broken links currently in our codebase.
+  link: '{{ repoUrl }}/pull/3'
   event: pull_request.synchronize
   actions:
-
-# explaining waiting for the build, merge when done
+  # explaining waiting for the build, merge when done
   - type: respond
     with: 03.5_fixed.md
 
-# 7 - Merge the PR
+# 8 - Merge the PR
 - title: Merge code with a successful build
   description: Merge your code.
+  link: '{{ repoUrl }}/pull/3'
   event: pull_request.closed
-
   actions:
-
   # merge master in so we have config
   - type: mergeBranch
     head: master
     base: add-links
-
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 4
     title: Add external links to docs
     body: 04.1_feature.md
     head: add-links
     action_id: linksPR
-
     # assign the learner so they can commit a suggestion
   - type: assignRegistrant
     issue: '%actions.linksPR.data.number%'
-
   - type: octokit
     method: pullRequests.createComment
     owner: '%payload.repository.owner.login%'
@@ -221,27 +206,23 @@ steps:
                 command: bundle exec htmlproofer ./_site --check-html
       ```
     position: 22
-
   - type: respond
     with: 03.6_go-to-feature-pr.md # points learner to feature PR
 
-# 8 - Add a unit test
+# 9 - Add a unit test
 - title: Add a link checker
   description: Check for broken links using CI.
+  link: '{{ repoUrl }}/pull/4'
   event: pull_request.synchronize #PR 5 with the addition of a unit test
-
   actions:
-
   # merge a broken link into the branch
   - type: mergeBranch
     head: add-a-link
     base: add-links
     action_id: branchWithLink
-
   # tells the learner to fix the broken link
   - type: respond
     with: 04.2_fix-the-link.md
-
   # suggest change from the learner
   - type: octokit
     method: pullRequests.createComment
@@ -256,47 +237,41 @@ steps:
       ```
     position: 5
 
+# 10
 - title: Fix the broken link
   description: Fix the broken link.
+  link: '{{ repoUrl }}/pull/4'
   event: pull_request.synchronize
-
   actions:
-
   - type: respond
     with: 04.3_merge.md
 
-# 9 - Merge your unit test
+# 11 - Merge your unit test
 - title: Merge the link checker
   description: Merge the test.
+  link: '{{ repoUrl }}/pull/4'
   event: pull_request.closed
-
   actions:
-
   # teaches the learner about continuous deployment with the introduction of the stage in the config
   - type: createIssue # PR 5: CD
     title: Continuous deployment
     body: 05.1_deploy.md
-
   # asks the learner to merge the deployment
   - type: respond
     issue: Add external links to docs
     with: 04.4_goto-deployment.md
 
-# 10 - Deploy
+# 12 - Deploy
 - title: Deploy
   description: Add continuous deployment to your pipeline.
+  link: '{{ repoUrl }}/issues/5'
   event: deployment
-
   actions:
-
   # points the learner to the deployment, constrasts with continuous delivery
   - type: respond
     issue: Continuous deployment
     with: 05.2_see-deployed.md
-
   # @todo create additional PRs for continued study
-
-  # final issue
   - type: createIssue
     title: Congratulations
     body: 06.1_congratulations.md
