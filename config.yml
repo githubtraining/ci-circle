@@ -230,7 +230,7 @@ steps:
     path: index.md
     body: |
       ```suggestion
-      Welcome to our Documentation site. How about a visit to [GitHub Docs](https://help.github.com/)
+      Welcome to our Documentation site. How about a visit to [GitHub Docs](https://help.github.com/articles/set-up-git/)
       ```
     position: 5
 
@@ -255,7 +255,7 @@ steps:
     body: 11.1_deploy.md
   # asks the learner to merge the deployment
   - type: respond
-    issue: Add external links to docs
+    issue: Add external links to the 'docs' directory
     with: 11.2_goto-deployment.md
     data:
       url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/issues/5'
