@@ -230,7 +230,7 @@ steps:
     path: index.md
     body: |
       ```suggestion
-      Welcome to our Documentation site. How about a visit to [GitHub Docs](https://help.github.com/)
+      Welcome to our Documentation site. How about a visit to [GitHub Docs](https://help.github.com/articles/set-up-git/)
       ```
     position: 5
 
