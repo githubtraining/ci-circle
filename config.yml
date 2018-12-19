@@ -36,7 +36,6 @@ steps:
     right: ci/circleci
   # asks user to open a PR
   - type: respond
-    issue: Welcome
     with: 01.1_congratulations.md
     data:
       prUrl: '%payload.repository.html_url%/compare/master...initial-circle-config?expand=1'
