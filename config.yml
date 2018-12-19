@@ -34,6 +34,10 @@ steps:
     left: '%payload.context%'
     operator: ===
     right: ci/circleci
+  - type: gate
+    left: '%payload.state%'
+    operator: '!=='
+    right: 'pending'
   # asks user to open a PR
   - type: respond
     issue: Welcome
