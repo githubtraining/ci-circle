@@ -93,6 +93,7 @@ steps:
     head: master
     base: custom-build
   # create a pull request customizing the config file
+  - type: updateBranchProtection
   - type: createPullRequest
     title: Configure the build
     body: 04.1_customize-the-build.md
@@ -147,7 +148,20 @@ steps:
     owner: '%payload.repository.owner.login%'
     repo: '%payload.repository.name%'
     branch: master
-  # merge a broken buuild into the branch
+    action_id: branch_prot
+  # make sure learner turned on status check branch protection
+  - type: gate
+    every: true
+    gates:
+      - left: '%actions.branch_prot.data.required_status_checks%'
+      - left: '%actions.branch_prot.data.required_status_checks.strict%'
+      - left: '%actions.branch_prot.data.required_status_checks.contexts%'
+        operator: includes
+        right: circle-ci
+    else:
+      - type: respond
+        with: 06.2_no-status-protection.md
+  # merge a broken build into the branch
   - type: mergeBranch
     head: timestamp
     base: custom-build
