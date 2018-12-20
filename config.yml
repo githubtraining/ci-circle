@@ -159,15 +159,15 @@ steps:
   # make sure learner turned on status check branch protection
   - type: gate
     every: true
-    gates:
-      - left: '%actions.branch_prot.data.required_status_checks%'
-      - left: '%actions.branch_prot.data.required_status_checks.strict%'
-      - left: '%actions.branch_prot.data.required_status_checks.contexts%'
-        operator: includes
-        right: "circleci"
-    else:
-      - type: respond
-        with: 06.e_no-status-protection.md
+    #gates:
+    #  - left: '%actions.branch_prot.data.required_status_checks%'
+    #  - left: '%actions.branch_prot.data.required_status_checks.strict%'
+    #  - left: '%actions.branch_prot.data.required_status_checks.contexts%'
+    #    operator: includes
+    #    right: "circleci"
+    #else:
+    #  - type: respond
+    #    with: 06.e_no-status-protection.md
   # merge a broken build into the branch
   - type: mergeBranch
     head: timestamp
