@@ -7,7 +7,8 @@ template:
     name: continuous-integration
     repo: ci-circle-template
 before:
-  # open issue 1 (welcome)
+- type: updateBranchProtection
+# open issue 1 (welcome)
 - type: createIssue
   title: Welcome
   body: 00.0_welcome.md
@@ -77,6 +78,7 @@ steps:
   link: '{{ repoUrl }}/pull/2'
   event: pull_request.synchronize
   actions:
+  - type: removeBranchProtection
   - type: respond
     with: 03.1_new-status.md
 
