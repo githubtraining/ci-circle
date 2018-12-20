@@ -160,7 +160,7 @@ steps:
         right: circle-ci
     else:
       - type: respond
-        with: 06.2_no-status-protection.md
+        with: 06.e_no-status-protection.md
   # merge a broken build into the branch
   - type: mergeBranch
     head: timestamp
