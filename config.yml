@@ -142,6 +142,9 @@ steps:
     left: '%payload.review.state%'
     operator: ===
     right: approved
+    else:
+      - type: respond
+        with: 05.e_approve-pr.md
   # make sure learner turned on branch protection
   - type: octokit
     method: repos.getBranchProtection
