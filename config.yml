@@ -52,6 +52,13 @@ steps:
   event: pull_request.opened
   actions:
   # introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
+  - type: gate
+    left: "payload.pull_request.head.ref%"
+    operator: "==="
+    right: "initial-circle-config"
+    else:
+      - type: respond
+        with: 01.e_wrong-branch.md
   - type: respond
     with: 02.1_build-status.md
   - type: closeIssue
@@ -90,6 +97,7 @@ steps:
     head: master
     base: custom-build
   # create a pull request customizing the config file
+  - type: updateBranchProtection
   - type: createPullRequest
     title: Configure the build
     body: 04.1_customize-the-build.md
@@ -114,7 +122,7 @@ steps:
   - type: respond
     with: 04.2_go-to-customize-build.md
     data:
-      url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/pull/3'
+      url: '%actions.newPR.data.html_url%'
 
 # 5 - Add validation
 - title: Add validation
@@ -127,6 +135,7 @@ steps:
   # asks the learner to turn on branch protection, and then approve the PR
   - type: respond
     with: 05.1_protect-branch.md
+  - type: removeBranchProtection
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect the master branch
@@ -138,13 +147,29 @@ steps:
     left: '%payload.review.state%'
     operator: ===
     right: approved
+    else:
+      - type: respond
+        with: 05.e_approve-pr.md
   # make sure learner turned on branch protection
   - type: octokit
     method: repos.getBranchProtection
     owner: '%payload.repository.owner.login%'
     repo: '%payload.repository.name%'
     branch: master
-  # merge a broken buuild into the branch
+    action_id: branch_prot
+  # make sure learner turned on status check branch protection
+  - type: gate
+    every: true
+    gates:
+      - left: '%actions.branch_prot.data.required_status_checks%'
+      - left: '%actions.branch_prot.data.required_status_checks.strict%'
+      - left: '%actions.branch_prot.data.required_status_checks.contexts%'
+        operator: includes
+        right: circle-ci
+    else:
+      - type: respond
+        with: 06.e_no-status-protection.md
+  # merge a broken build into the branch
   - type: mergeBranch
     head: timestamp
     base: custom-build
@@ -206,11 +231,11 @@ steps:
       ```suggestion
                 command: bundle exec htmlproofer ./_site --check-html
       ```
-    position: 22
+    position: 41
   - type: respond
     with: 08.2_go-to-feature-pr.md # points learner to feature PR
     data:
-      url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/pull/4'
+      url: '%actions.linksPR.data.html_url%'
 
 # 9 - Add a unit test
 - title: Add an HTMLProofer unit test
@@ -259,12 +284,13 @@ steps:
   - type: createIssue # PR 5: CD
     title: Continuous deployment
     body: 11.1_deploy.md
+    action_id: deployIssue
   # asks the learner to merge the deployment
   - type: respond
     issue: Add external links to the 'docs' directory
     with: 11.2_goto-deployment.md
     data:
-      url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/issues/5'
+      url: '%actions.deployIssue.data.html_url%'
 
 # 12 - Deploy
 - title: Deploy
@@ -277,10 +303,11 @@ steps:
     issue: Continuous deployment
     with: 12.1_see-deployed.md
     data:
-      url: 'https://github.com/%payload.repository.owner.login%/%payload.repository.name%/issues/6'
+      url: '%actions.congratsIssue.data.html_url%'
   # @todo create additional PRs for continued study
   - type: closeIssue
     issue: Continuous deployment
   - type: createIssue
     title: Congratulations
     body: 12.2_congratulations.md
+    action_id: congratsIssue
