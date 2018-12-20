@@ -53,7 +53,7 @@ steps:
   actions:
   # introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
   - type: gate
-    left: "payload.pull_request.head.ref%"
+    left: '%payload.pull_request.head.ref%'
     operator: "==="
     right: "initial-circle-config"
     else:
