@@ -164,7 +164,7 @@ steps:
       - left: '%actions.branch_prot.data.required_status_checks.strict%'
       - left: '%actions.branch_prot.data.required_status_checks.contexts%'
         operator: includes
-        right: circle-ci
+        right: "circle-ci: build"
     else:
       - type: respond
         with: 06.e_no-status-protection.md
