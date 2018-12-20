@@ -31,9 +31,9 @@ steps:
   actions:
   # waits for circleci to report a status, any status
   - type: gate
-    left: '%payload.context%'
-    operator: ===
-    right: ci/circleci
+    left: /^ci/circleci/
+    operator: test
+    right: '%payload.context%'
   - type: gate
     left: '%payload.state%'
     operator: '!=='
