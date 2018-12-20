@@ -31,9 +31,9 @@ steps:
   actions:
   # waits for circleci to report a status, any status
   - type: gate
-    left: '%payload.context%'
-    operator: ===
-    right: ci/circleci
+    left: /^ci/circleci/
+    operator: test
+    right: '%payload.context%'
   - type: gate
     left: '%payload.state%'
     operator: '!=='
@@ -157,17 +157,17 @@ steps:
     branch: master
     action_id: branch_prot
   # make sure learner turned on status check branch protection
-  #- type: gate
-  #  every: true
-    #gates:
-    #  - left: '%actions.branch_prot.data.required_status_checks%'
-    #  - left: '%actions.branch_prot.data.required_status_checks.strict%'
-    #  - left: '%actions.branch_prot.data.required_status_checks.contexts%'
-    #    operator: includes
-    #    right: "circleci"
-    #else:
-    #  - type: respond
-    #    with: 06.e_no-status-protection.md
+  - type: gate
+    every: true
+    gates:
+     - left: '%actions.branch_prot.data.required_status_checks%'
+     - left: '%actions.branch_prot.data.required_status_checks.strict%'
+     - left: '%actions.branch_prot.data.required_status_checks.contexts%'
+       operator: includes
+       right: '/^ci\/circleci/'
+    else:
+     - type: respond
+       with: 06.e_no-status-protection.md
   # merge a broken build into the branch
   - type: mergeBranch
     head: timestamp
