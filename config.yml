@@ -131,6 +131,7 @@ steps:
   # asks the learner to turn on branch protection, and then approve the PR
   - type: respond
     with: 05.1_protect-branch.md
+  - type: removeBranchProtection
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect the master branch
