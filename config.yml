@@ -157,8 +157,8 @@ steps:
     branch: master
     action_id: branch_prot
   # make sure learner turned on status check branch protection
-  - type: gate
-    every: true
+  #- type: gate
+  #  every: true
     #gates:
     #  - left: '%actions.branch_prot.data.required_status_checks%'
     #  - left: '%actions.branch_prot.data.required_status_checks.strict%'
