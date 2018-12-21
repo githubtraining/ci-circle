@@ -136,7 +136,7 @@ steps:
   - type: respond
     with: 05.1_protect-branch.md
     data:
-      url: '%payload.pull_request.url%'
+      url: '%payload.pull_request.html_url%'
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect the master branch
@@ -275,7 +275,7 @@ steps:
   - type: respond
     with: 10.1_merge.md
     data:
-      url: '%payload.pull_request.url%'
+      url: '%payload.pull_request.html_url%'
 
 # 11 - Merge your unit test
 - title: Merge the unit test
