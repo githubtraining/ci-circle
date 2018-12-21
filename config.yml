@@ -72,7 +72,7 @@ steps:
     path: .circleci/config.yml
     body: |
       ```suggestion
-            - image: circleci/ruby:2.4.1-node-browsers
+            - image: githubtraining/ci-custom:latest
       ```
     position: 5
 
@@ -92,10 +92,6 @@ steps:
   link: '{{ repoUrl }}/pull/2'
   event: pull_request.closed
   actions:
-  # # merge master in so we have config
-  - type: mergeBranch
-    head: master
-    base: custom-build
   # create a pull request customizing the config file
   - type: updateBranchProtection
   - type: createPullRequest
@@ -208,10 +204,6 @@ steps:
   link: '{{ repoUrl }}/pull/3'
   event: pull_request.closed
   actions:
-  # merge master in so we have config
-  - type: mergeBranch
-    head: master
-    base: add-links
   # introduces a new feature into the codebase, asks learner to add a unit test
   - type: createPullRequest #PR 4
     title: Add external links to the 'docs' directory
