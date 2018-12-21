@@ -133,6 +133,7 @@ steps:
     with: 05.1_protect-branch.md
     data:
       url: '%payload.pull_request.html_url%'
+      repo: '%payload.repository.html_url%'
 
 # 6 - Protect a branch based on the CI build status
 - title: Protect the master branch
@@ -280,6 +281,8 @@ steps:
     title: Continuous deployment
     body: 11.1_deploy.md
     action_id: deployIssue
+    data:
+      repo: '%payload.repository.html_url%'
   # asks the learner to merge the deployment
   - type: respond
     issue: Add external links to the 'docs' directory
