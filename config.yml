@@ -72,7 +72,7 @@ steps:
     path: .circleci/config.yml
     body: |
       ```suggestion
-            - image: circleci/ruby:2.4.1-node-browsers
+            - image: githubtraining/ci-custom:latest
       ```
     position: 5
 
