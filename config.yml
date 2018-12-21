@@ -224,7 +224,7 @@ steps:
       ```suggestion
                 command: bundle exec htmlproofer ./_site --check-html
       ```
-    position: 21
+    position: 30
   - type: respond
     with: 08.2_go-to-feature-pr.md # points learner to feature PR
     data:
