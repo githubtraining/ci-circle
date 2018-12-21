@@ -113,7 +113,7 @@ steps:
       ```suggestion
                 command: bundle exec jekyll build
       ```
-    position: 11
+    position: 18
   # ask the learner to go to the next PR
   - type: respond
     with: 04.2_go-to-customize-build.md
