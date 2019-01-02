@@ -4,7 +4,7 @@ description: Learn about the principles of continuous integration with GitHub an
 tags:
   - Continuous Integration
 template:
-    name: continuous-integration
+    name: continuous-integration-circle
     repo: ci-circle-template
 before:
 - type: updateBranchProtection
