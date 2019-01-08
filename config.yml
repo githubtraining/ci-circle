@@ -1,6 +1,6 @@
 title: Continuous integration with CircleCI
 tagline: Use CI
-description: Learn about the principles of continuous integration with GitHub and CircleCI.
+description: Learn how to automatically test changes made to your project, freeing you up to write more amazing code.
 tags:
   - Continuous Integration
 template:
