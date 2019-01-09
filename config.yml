@@ -84,9 +84,9 @@ steps:
   link: '{{ repoUrl }}/pull/2'
   event: pull_request.synchronize
   actions:
-  - type: removeBranchProtection
-  - type: respond
-    with: 03.1_new-status.md
+  - type: createReview
+    body: 03.1_new-status.md
+    event: APPROVE
 
 # 4 - Merge your fix
 - title: Merge the configuration
