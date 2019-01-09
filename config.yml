@@ -84,9 +84,9 @@ steps:
   link: '{{ repoUrl }}/pull/2'
   event: pull_request.synchronize
   actions:
-  - type: removeBranchProtection
-  - type: respond
-    with: 03.1_new-status.md
+  - type: createReview
+    body: 03.1_new-status.md
+    event: APPROVE
 
 # 4 - Merge your fix
 - title: Merge the configuration
@@ -95,7 +95,6 @@ steps:
   event: pull_request.closed
   actions:
   # create a pull request customizing the config file
-  - type: updateBranchProtection
   - type: createPullRequest
     title: Configure the build
     body: 04.1_customize-the-build.md
@@ -267,6 +266,8 @@ steps:
   link: '{{ repoUrl }}/pull/4'
   event: pull_request.synchronize
   actions:
+  - type: requestReviewFromRegistrant
+  
   - type: respond
     with: 10.1_merge.md
     data:
