@@ -266,6 +266,8 @@ steps:
   link: '{{ repoUrl }}/pull/4'
   event: pull_request.synchronize
   actions:
+  - type: requestReviewFromRegistrant
+  
   - type: respond
     with: 10.1_merge.md
     data:
