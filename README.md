@@ -2,9 +2,9 @@ In modern software development, developers integrate code into a shared reposito
 
 After completing this course, you will be able to:
 
-- define continuous deployment
-- identify how projects use CI
-- set up continuous integration for one of your projects
-- protect branches based on the result of a build from continuous integration
-- customize builds
-- add tests for your project
+- Define continuous deployment
+- Identify how projects use CI
+- Set up continuous integration for one of your projects
+- Protect branches based on the result of a build from continuous integration
+- Customize builds
+- Add tests for your project
