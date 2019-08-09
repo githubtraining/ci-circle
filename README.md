@@ -1,10 +1,25 @@
-In modern software development, developers integrate code into a shared repository several times a day. With such frequent code changes, how do you ensure your code is bug free? Continuous Integration (CI) is an approach to software development in which tests run automatically anytime code is changed, saving you time and giving your team improved reliability. Continuous Deployment or Delivery (CD) refers to whatever happens after these tests run. If they pass, your new code can be automatically deployed to production, with the help of a CI/CD platform like CircleCI.
+<p align="center"><a href="https://lab.github.com/"><img alt="Learning Lab bot" src="https://user-images.githubusercontent.com/16547949/62085817-83232580-b22a-11e9-8693-7c54205b04e5.png"></a></p>
 
-After completing this course, you will be able to:
+<h1 align="center">Course: Continuous integration with CircleCI </h1>
 
-- Define continuous deployment
-- Identify how projects use CI
-- Set up continuous integration for one of your projects
-- Protect branches based on the result of a build from continuous integration
-- Customize builds
-- Add tests for your project
+This repository powers the Learning Lab course [_Continuous integration with CircleCI_](https://lab.github.com/githubtraining/continuous-integration-with-circleci). 
+
+Every Learning Lab course is made up of:
+- a [course repository](https://github.com/githubtraining/ci-circle), and
+- a [template repository](https://github.com/githubtraining/ci-circle-template)
+
+The course repository is written in YAML and Markdown. The template repository could be written in any language that supports the learning objectives.
+
+For more information on the goals of this course, check out the [`course-details.md`](course-details.md). 
+
+## Contribute
+
+See something we could improve? Check out the contributing guide in the [community contributors repository](https://github.com/githubtraining/community-contributors/blob/master/CONTRIBUTING.md) for more information on the types of contributions we :heart: and instructions.
+
+We :heart: our community and take great care to ensure it is fun, safe and rewarding. Please review our [Code of Conduct](https://github.com/githubtraining/community-contributors/blob/master/CODE_OF_CONDUCT.md) for community expectations and guidelines for reporting concerns.
+
+## License
+
+All Learning Lab course repositories are licensed under [CC-BY-4.0](../LICENSE) (c) 2019 GitHub, Inc. The template repositories associated with each course may have different licenses.
+
+When using the GitHub logos, be sure to follow the [GitHub logo guidelines](https://github.com/logos)
