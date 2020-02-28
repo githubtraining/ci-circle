@@ -24,7 +24,7 @@ Before you take this course, you may want to go through the [Introduction to Git
 This makes use of the following open source projects. Consider exploring these repos and maybe even making contributions!
 
 - [Jekyll](https://github.com/jekyll/jekyll): a simple, blog-aware, static site generator.
-- 
+
 ## Audience
 
 Developers, GitHub users, users new to Git, students, managers, teams
