@@ -11,7 +11,7 @@ In modern software development, developers integrate code into a shared reposito
 
 ## What you'll build
 
-![screen shot of finished GitHub pages site]()
+![screen shot of finished GitHub pages site](https://user-images.githubusercontent.com/9906718/75550820-04e26800-5a33-11ea-896c-385316351ea4.png)
 
 - You'll build a GitHub Pages site hosting documentation while using circle-ci to check the builds, run unit tests, and more.
 
