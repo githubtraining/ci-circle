@@ -42,12 +42,12 @@ steps:
     issue: Welcome
     with: 01.1_congratulations.md
     data:
-      prUrl: '%payload.repository.html_url%/compare/master...initial-circle-config?expand=1'
+      prUrl: '%payload.repository.html_url%/compare/main...initial-circle-config?expand=1'
 
 # 2 - Add new code
 - title: Introduce the configuration file
   description: Learn how to use CI by introducing a configuration file.
-  link: '{{ repoUrl }}/compare/master...initial-circle-config?expand=1'
+  link: '{{ repoUrl }}/compare/main...initial-circle-config?expand=1'
   event: pull_request.opened
   actions:
   # introduces learner to the build status at the provider page (or the checks tab?), asks learner to commit a fix
@@ -59,7 +59,7 @@ steps:
       - type: respond
         with: 01.e_wrong-branch.md
         data:
-          prUrl: '%payload.repository.html_url%/compare/master...initial-circle-config?expand=1'
+          prUrl: '%payload.repository.html_url%/compare/main...initial-circle-config?expand=1'
   - type: respond
     with: 02.1_build-status.md
   - type: closeIssue
@@ -136,7 +136,7 @@ steps:
       repo: '%payload.repository.html_url%'
 
 # 6 - Protect a branch based on the CI build status
-- title: Protect the master branch
+- title: Protect the main branch
   description: Require that CI returns a successful status before a PR can be merged.
   link: '{{ repoUrl }}/pull/3'
   event: pull_request_review
@@ -153,7 +153,7 @@ steps:
     method: repos.getBranchProtection
     owner: '%payload.repository.owner.login%'
     repo: '%payload.repository.name%'
-    branch: master
+    branch: main
     action_id: branch_prot
   # make sure learner turned on status check branch protection
   #- type: gate
